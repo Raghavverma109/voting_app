@@ -13,6 +13,24 @@ router.post('/signup', async (req, res) => {
     try {
         const data = req.body; // Assuming data is in the request body
 
+
+        // Check if there is already an admin user
+        const adminUser = await User.findOne({ role: 'admin' });
+        if (data.role === 'admin' && adminUser) {
+            return res.status(400).json({ error: 'Admin user already exists' });
+        }
+
+        // Validate Aadhar Card Number must have exactly 12 digit
+        if (!/^\d{12}$/.test(data.addharCardNumber)) {
+            return res.status(400).json({ error: 'Aadhar Card Number must be exactly 12 digits' });
+        }
+
+        // Check if a user with the same Aadhar Card Number already exists
+        const existingUser = await User.findOne({ addharCardNumber: data.addharCardNumber });
+        if (existingUser) {
+            return res.status(400).json({ error: 'User with the same Aadhar Card Number already exists' });
+        }
+
         const newUser = new User(data); // Create a new user document using mongoose model
 
         const savedUser = await newUser.save(); // Save to DB
