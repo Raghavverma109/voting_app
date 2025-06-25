@@ -49,6 +49,9 @@ A backend voting application where users can vote for candidates using a unique 
 
 Installation - 
 
-Clone the repository:
+Clone the repository: 
+
+git clone https://github.com/Raghavverma109/voting_app
+
 ---
 
