@@ -63,21 +63,25 @@ A secure and robust **backend voting system** built with **Node.js**, **Express*
 ```bash
 git clone https://github.com/Raghavverma109/voting_app
 cd voting_app
+```
 
 ### 2. Install Dependencies
 
 ```bash
 npm install
+```
 
 ### 3. Create a .env file
 ```bash
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
+```
 
 ### 4. Run the Server
 ```bash
 npm start
+```
 
 
 
