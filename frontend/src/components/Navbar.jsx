@@ -28,8 +28,8 @@ export default function Navbar() {
               className="flex items-center gap-2 group"
               onClick={closeMobileMenu}
             >
-              <div className="bg-gradient-to-br from-emerald-400 to-cyan-500 p-2 rounded-xl shadow-lg shadow-emerald-500/30 group-hover:shadow-emerald-500/50 transition-all duration-300">
-                <ShieldCheck className="w-6 h-6 text-white" />
+              <div className=" transition-all duration-300">
+                <img src="/public/logo.png" alt="VoteSafe Logo" className="h-13 w-13" />
               </div>
               <span className="text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300">
                 VoteSafe
