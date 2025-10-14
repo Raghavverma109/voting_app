@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* small utility for a glass card */
+.glass {
+  @apply bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl shadow-lg;
+}
