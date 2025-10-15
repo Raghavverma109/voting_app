@@ -248,7 +248,7 @@ export default function Signup() {
           <div className="text-center mb-8">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <div className="bg-gradient-to-br from-emerald-400 to-sky-500 p-3 rounded-2xl shadow-2xl shadow-emerald-500/50">
-                <ShieldCheck className="w-8 h-8 text-white" />
+                <img src="/" alt="" />
               </div>
               <div>
                 <h1 className="text-4xl font-bold text-white">Secure Signup</h1>
