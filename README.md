@@ -1,290 +1,494 @@
-# 🗳️ Voting Application (Backend)  
-A secure and robust **backend voting system** built with **Node.js**, **Express**, and **MongoDB**, where users can vote using their **Aadhar number** as a unique identifier.
+# 🗳️ VoteSafe - Secure Aadhar-based Voting Application
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express.js-000000?logo=express&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-black?logo=JSON%20web%20tokens)
+<div align="center">
 
----
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-000000?logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwind-css&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?logo=JSON%20web%20tokens)
 
-## 🔧 Features
+**A modern, secure voting platform with Aadhar authentication, real-time results, and elegant dark theme UI**
 
-- ✅ User Signup & Login via Aadhar number + password  
-- 🔐 **JWT-based Authentication** for secure API access  
-- 👤 **Admin role** for managing candidates (admin cannot vote)  
-- 🗳️ **Vote-once only logic** for fairness  
-- 📊 **Live vote count** with **sorted result view**  
-- 🔒 Secure password hashing using **bcrypt**  
-- 🔁 Change password functionality  
-- 💾 MongoDB-based persistent storage
+[Features](#-features) • [Screenshots](#-screenshots) • [Setup](#-installation--setup) • [API Docs](#-api-documentation) • [Tech Stack](#-technology-stack)
 
----
-
-## 📁 API Routes Overview
-
-### 🧑‍💼 User Authentication
-- `POST /signup` – Register with Aadhar + password  
-- `POST /login` – Login and receive JWT token  
-
-### 🗳️ Voting
-- `GET /candidates` – List all candidates  
-- `POST /vote/:candidateId` – Cast a vote  
-
-### 📊 Vote Results
-- `GET /vote/counts` – Get **live**, **sorted** vote counts  
-
-### 👤 User Profile
-- `GET /profile` – View user profile  
-- `PUT /profile/password` – Change password  
-
-### 👑 Admin Candidate Management
-- `POST /candidates` – Add new candidate  
-- `PUT /candidates/:id` – Edit candidate details  
-- `DELETE /candidates/:id` – Remove candidate  
+</div>
 
 ---
 
-## 👮 Admin Rules
-- Only **one admin user** is allowed  
-- Admin **cannot vote** to maintain neutrality
+## 📖 Overview
+
+VoteSafe is a full-stack voting application that enables secure, transparent, and tamper-proof elections. Built with modern web technologies, it uses Aadhar number authentication to ensure one vote per person while maintaining user privacy. The application features a sleek dark theme interface, real-time vote counting, and comprehensive admin controls.
+
+### Why VoteSafe?
+
+- **🔒 Secure**: Aadhar-based authentication with JWT tokens and bcrypt password hashing
+- **🎯 One Vote Policy**: Strict enforcement of single vote per user
+- **📊 Real-time Results**: Live vote counting with sorted, visual results
+- **👑 Admin Control**: Dedicated admin panel for candidate management
+- **🎨 Modern UI**: Beautiful dark theme with responsive design
+- **☁️ Cloud Ready**: Cloudinary integration for image storage
 
 ---
 
-## 🧰 Tech Stack
+## ✨ Features
 
-# 🗳️ Voting App
+### User Features
+- ✅ Secure signup and login using Aadhar number + password
+- 🔐 JWT-based authentication for protected routes
+- 🗳️ Vote once per user with server-side validation
+- 👤 User profile management with password change
+- 📱 Fully responsive design for all devices
+- 🎨 Clean, modern dark theme interface
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white) ![Express](https://img.shields.io/badge/Express.js-000000?logo=express&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white) ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black) ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwind-css&logoColor=white)
+### Admin Features
+- 👑 Single admin account with special privileges
+- ➕ Add, edit, and delete candidates
+- 📸 Upload candidate photos via Cloudinary
+- 📊 View live vote statistics
+- 🚫 Admin cannot vote (maintains neutrality)
+- 🔧 Complete candidate management dashboard
 
-One-liner: A simple, secure voting platform that allows registered users to cast a single vote for candidates, with admin tools to manage candidates and view live results.
-
-## Project overview
-
-This repository contains a full-stack voting application. The backend (in `/backend`) is built with Node.js, Express and MongoDB (via Mongoose). It provides user authentication using Aadhaar number and password, JWT-based authorization, candidate management for admins, and vote-casting endpoints that enforce a vote-once policy.
-
-The frontend (in `/frontend`) is a React + Vite app styled with Tailwind CSS. It consumes the backend API to allow users to sign up, log in, view candidates, and cast votes. The frontend also includes admin UI to add, update and delete candidates and view results.
-
-Live demo: Not deployed yet.
-
----
-
-## Key features
-
-- User signup & login using Aadhaar number + password (JWT authentication)
-- Admin role (single admin allowed) to manage candidates (create/update/delete, upload images via Cloudinary)
-- Vote once enforcement per user
-- Vote counts with sorted results endpoint
-- Password hashing with bcrypt and token-based auth with jsonwebtoken
-- Candidate images uploaded to Cloudinary
-
----
-
-## Screenshots / GIFs
-
-- Homepage Screenshot: Shows landing page with candidate list and vote buttons.
-- Admin Dashboard Screenshot: Shows candidate management UI (create, edit, delete).
-- Results Screenshot: Shows bar chart or list of candidates sorted by votes.
-
-(Add image URLs here or replace with real screenshots.)
+### Technical Features
+- 🔄 Real-time vote counting
+- 📊 Sorted results in descending order
+- 🛡️ Secure password hashing with bcrypt
+- 🎫 Token-based session management
+- 🌐 RESTful API architecture
+- 💾 MongoDB for persistent data storage
 
 ---
 
-## Technology stack
+## 📸 Screenshots
 
-Frontend:
+### Home Page
+![Home Page](./screenshots/home.png)
+*Modern landing page with hero section and call-to-action buttons*
 
-- React 18 (Vite)
-- Tailwind CSS
-- Axios
+### Login Page
+![Login Page](./screenshots/login.png)
+*Secure login interface with Aadhar authentication*
 
-Backend:
+### Signup Page
+![Signup Page](./screenshots/signup.png)
+*User registration with Aadhar QR verification and live photo capture*
 
-- Node.js (CommonJS)
-- Express 5
-- Mongoose (MongoDB)
-- multer (file uploads)
-- Cloudinary for image storage
-- jsonwebtoken (JWT) for auth
-- bcrypt for password hashing
+### Dashboard
+![Dashboard](./screenshots/dashboard.png)
+*User dashboard showing available candidates and voting interface*
 
-Database:
+### Results Page
+![Results Page](./screenshots/results.png)
+*Live vote counts with visual representation and sorted rankings*
 
-- MongoDB (Atlas or local)
-
-Deployment (suggested):
-
-- Frontend: Vercel / Netlify
-- Backend: Render / Heroku / Railway
-
----
-
-## API Endpoints
-
-Base URL (local): http://localhost:5000 (backend default in examples)
-
-Note: The backend mounts routes under `/user` and `/candidates` in `backend/server.js`.
-
-Users (mounted at /user):
-
-| Method | Endpoint | Description | Auth |
-|---|---:|---|---:|
-| POST | /user/signup | Register a new user. Body: user data (see env) | No |
-| POST | /user/login | Login with { addharCardNumber, password } → returns JWT | No |
-| GET | /user/profile | Get authenticated user's profile | Yes (Bearer token)
-| PUT | /user/profile/password | Change password. Body: { currentPassword, newPassword } | Yes (Bearer token)
-
-Candidates & Voting (mounted at /candidates):
-
-| Method | Endpoint | Description | Auth |
-|---|---:|---|---:|
-| GET | /candidates/ | List all candidates (name, party, votes, image) | No |
-| POST | /candidates/ | Create a candidate (multipart/form-data: image) | Yes (admin)
-| PUT | /candidates/:candidateId | Update candidate (multipart/form-data optional image) | Yes (admin)
-| DELETE | /candidates/:candidateId | Delete candidate | Yes (admin)
-| POST | /candidates/vote/:candidateId | Cast a vote for a candidate | Yes (voter only)
-| GET | /candidates/vote/count | Get vote counts (sorted desc) | No
-
-Important details:
-
-- Authentication: All protected routes expect an Authorization header with a Bearer token. The token is created with the `generateToken` helper in `backend/jwt.js` and verified by `jwtAuthMiddleware`.
-- Admin role: Determined by the `role` field on the `User` model. Only users with `role: 'admin'` may create/update/delete candidates. Admins are prevented from voting by server-side checks.
-- File uploads: Candidate images are uploaded with `multer` then forwarded to Cloudinary. The Cloudinary config reads `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` from environment variables.
+### Admin Panel
+![Admin Panel](./screenshots/admin.png)
+*Comprehensive admin dashboard for candidate management*
 
 ---
 
-## Local development & setup
+## 🛠️ Technology Stack
 
-Prerequisites:
+### Frontend
+| Technology | Purpose |
+|------------|---------|
+| **React 18** | Modern UI framework with hooks |
+| **Vite** | Lightning-fast build tool and dev server |
+| **Tailwind CSS** | Utility-first CSS framework |
+| **Axios** | HTTP client for API requests |
+| **React Router** | Client-side routing |
+| **Lucide React** | Beautiful icon library |
+| **React Hot Toast** | Elegant toast notifications |
+| **React QR Reader** | QR code scanning for Aadhar verification |
 
-- Node.js (v18+ recommended)
-- npm (comes with Node.js) or yarn
-- Git
-- MongoDB (local or Atlas)
-- Cloudinary account (optional, required to upload images)
+### Backend
+| Technology | Purpose |
+|------------|---------|
+| **Node.js** | JavaScript runtime environment |
+| **Express 5** | Web application framework |
+| **MongoDB** | NoSQL database |
+| **Mongoose** | MongoDB object modeling |
+| **JWT** | Secure token-based authentication |
+| **bcrypt** | Password hashing algorithm |
+| **Multer** | File upload middleware |
+| **Cloudinary** | Cloud-based image storage |
 
-### 1) Clone repository
+---
 
-```powershell
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18+ recommended)
+- **npm** or **yarn**
+- **Git**
+- **MongoDB** (local installation or Atlas account)
+- **Cloudinary account** (for image uploads)
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/Raghavverma109/voting_app.git
 cd voting_app
 ```
 
-### 2) Backend setup
+### 2. Backend Setup
 
-```powershell
+```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file in `backend/` with the following variables:
+Create a `.env` file in the `backend/` directory:
 
-```
+```env
+# Server Configuration
 PORT=5000
+
+# Database
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-# Cloudinary (required if you want to upload candidate images)
-CLOUDINARY_CLOUD_NAME=your_cloud_name
+
+# Authentication
+JWT_SECRET=your_super_secret_jwt_key
+
+# Cloudinary Configuration
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-Run the backend (example using nodemon if installed globally, or use npx):
+Start the backend server:
 
-```powershell
-# using nodemon (recommended for development)
-npx nodemon server.js
+```bash
+# Development mode with auto-restart
+npm run dev
 
-# or using node
-node server.js
+# or Production mode
+npm start
 ```
 
-The server listens on `process.env.PORT` (default shown as 3030 in `server.js` if PORT not set). The frontend configuration uses `http://localhost:5000` by default — you can align these ports if desired.
+The backend will run on `http://localhost:5000`
 
-### 3) Frontend setup
+### 3. Frontend Setup
 
-```powershell
+```bash
 cd ../frontend
 npm install
 ```
 
-Create a `.env` file inside `frontend/` with the following variable (frontend reads `VITE_API_URL`):
+Create a `.env` file in the `frontend/` directory:
 
-```
+```env
 VITE_API_URL=http://localhost:5000
 ```
 
-Run the frontend dev server:
+Start the frontend development server:
 
-```powershell
+```bash
 npm run dev
 ```
 
-Open the app in your browser (Vite will print the local dev URL, commonly `http://localhost:5173`).
+The frontend will run on `http://localhost:5173`
+
+### 4. Access the Application
+
+Open your browser and navigate to:
+- **Frontend**: `http://localhost:5173`
+- **Backend API**: `http://localhost:5000`
 
 ---
 
-## Environment variables summary
+## 📚 API Documentation
 
-Backend (`backend/.env`):
+### Base URL
+```
+http://localhost:5000
+```
 
-- PORT — port to run the backend server (default: 3030 if not set)
-- MONGO_URI — MongoDB connection string (required)
-- JWT_SECRET — secret used to sign JWT tokens (required)
-- CLOUDINARY_CLOUD_NAME — Cloudinary cloud name (optional for uploads)
-- CLOUDINARY_API_KEY — Cloudinary API key (optional)
-- CLOUDINARY_API_SECRET — Cloudinary API secret (optional)
+### Authentication
+All protected routes require a JWT token in the Authorization header:
+```
+Authorization: Bearer <your_jwt_token>
+```
 
-Frontend (`frontend/.env`):
+### User Routes (`/user`)
 
-- VITE_API_URL — URL of the backend API (e.g., http://localhost:5000)
+#### Register New User
+```http
+POST /user/signup
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "age": 25,
+  "aadhar": "123456789012",
+  "password": "securepass123",
+  "phone": "9876543210",
+  "address": "123 Main St, City",
+  "dob": "1999-01-01",
+  "email": "john@example.com",
+  "profilePhoto": "https://cloudinary.com/image.jpg"
+}
+```
+
+#### Login
+```http
+POST /user/login
+Content-Type: application/json
+
+{
+  "aadhar": "123456789012",
+  "password": "securepass123"
+}
+
+Response:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": { ... }
+}
+```
+
+#### Get User Profile
+```http
+GET /user/profile
+Authorization: Bearer <token>
+```
+
+#### Change Password
+```http
+PUT /user/profile/password
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "currentPassword": "oldpass123",
+  "newPassword": "newpass456"
+}
+```
+
+### Candidate Routes (`/candidates`)
+
+#### Get All Candidates
+```http
+GET /candidates/
+```
+
+#### Create Candidate (Admin Only)
+```http
+POST /candidates/
+Authorization: Bearer <admin_token>
+Content-Type: multipart/form-data
+
+Fields:
+- name: string
+- party: string
+- age: number
+- image: file (optional)
+```
+
+#### Update Candidate (Admin Only)
+```http
+PUT /candidates/:candidateId
+Authorization: Bearer <admin_token>
+Content-Type: multipart/form-data
+```
+
+#### Delete Candidate (Admin Only)
+```http
+DELETE /candidates/:candidateId
+Authorization: Bearer <admin_token>
+```
+
+#### Cast Vote
+```http
+POST /candidates/vote/:candidateId
+Authorization: Bearer <token>
+```
+
+#### Get Vote Counts
+```http
+GET /candidates/vote/count
+
+Response:
+[
+  {
+    "party": "Party A",
+    "count": 150
+  },
+  {
+    "party": "Party B",
+    "count": 120
+  }
+]
+```
 
 ---
 
-## Quick API examples (using curl)
+## 🔐 Security Features
 
-Register a user:
+- **Password Hashing**: All passwords are hashed using bcrypt before storage
+- **JWT Authentication**: Secure token-based authentication with expiration
+- **Role-based Access**: Separate admin and voter permissions
+- **Vote Validation**: Server-side checks to prevent duplicate voting
+- **Aadhar Verification**: QR code scanning for identity verification
+- **Protected Routes**: Middleware-based route protection
 
-```bash
-curl -X POST http://localhost:5000/user/signup \
-	-H "Content-Type: application/json" \
-	-d '{"name":"Alice","age":30,"addharCardNumber":"123456789012","password":"pass123","phone":9999999999,"address":"Somewhere","dob":"1992-01-01","profilePhoto":"https://example.com/photo.jpg"}'
+---
+
+## 📁 Project Structure
+
 ```
-
-Login:
-
-```bash
-curl -X POST http://localhost:5000/user/login -H "Content-Type: application/json" -d '{"addharCardNumber":"123456789012","password":"pass123"}'
-```
-
-Get candidates:
-
-```bash
-curl http://localhost:5000/candidates/
-```
-
-Cast a vote (replace TOKEN and CANDIDATE_ID):
-
-```bash
-curl -X POST http://localhost:5000/candidates/vote/CANDIDATE_ID -H "Authorization: Bearer TOKEN"
+voting_app/
+├── backend/
+│   ├── models/
+│   │   ├── User.js          # User schema with Aadhar validation
+│   │   └── Candidate.js     # Candidate schema
+│   ├── routes/
+│   │   ├── userRoutes.js    # User authentication routes
+│   │   └── candidateRoutes.js # Candidate & voting routes
+│   ├── middleware/
+│   │   └── auth.js          # JWT verification middleware
+│   ├── utils/
+│   │   ├── jwt.js           # Token generation helper
+│   │   ├── cloudinary.js    # Cloudinary configuration
+│   │   └── db.js            # MongoDB connection
+│   ├── .env                 # Environment variables
+│   ├── server.js            # Express app entry point
+│   └── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx   # Navigation component
+│   │   │   └── ...
+│   │   ├── pages/
+│   │   │   ├── Home.jsx     # Landing page
+│   │   │   ├── Login.jsx    # Login page
+│   │   │   ├── Signup.jsx   # Registration page
+│   │   │   ├── Dashboard.jsx # Voting dashboard
+│   │   │   ├── Results.jsx  # Results page
+│   │   │   └── Admin.jsx    # Admin panel
+│   │   ├── contexts/
+│   │   │   └── AuthContext.jsx # Authentication context
+│   │   ├── api/
+│   │   │   └── axiosConfig.js # Axios instance
+│   │   ├── utils/
+│   │   │   ├── parseAadhaarXml.js # QR code parser
+│   │   │   └── matchAadhaar.js    # Verification logic
+│   │   ├── App.jsx          # Main app component
+│   │   └── main.jsx         # React entry point
+│   ├── .env                 # Environment variables
+│   ├── vite.config.js       # Vite configuration
+│   ├── tailwind.config.js   # Tailwind configuration
+│   └── package.json
+│
+└── screenshots/             # Application screenshots
+    ├── home.png
+    ├── login.png
+    ├── signup.png
+    ├── dashboard.png
+    ├── results.png
+    └── admin.png
 ```
 
 ---
 
-## Author
+## 🎯 Usage Guide
 
-Raghav Verma
+### For Voters
 
-GitHub: https://github.com/Raghavverma109
+1. **Register**: Sign up using your Aadhar number and create a password
+2. **Verify**: Scan your Aadhar QR code for verification (optional)
+3. **Login**: Access your account with Aadhar and password
+4. **Vote**: Browse candidates and cast your vote
+5. **View Results**: Check live voting results anytime
+
+### For Admins
+
+1. **Login**: Access admin account (must be pre-configured)
+2. **Manage Candidates**: Add, edit, or remove candidates
+3. **Upload Photos**: Add candidate images via Cloudinary
+4. **Monitor**: View real-time voting statistics
+5. **Note**: Admins cannot vote to maintain fairness
 
 ---
 
-If you'd like, I can also:
+## 🚀 Deployment
 
-- Add a short Postman collection for quick API testing.
-- Add example .env.sample files inside `backend/` and `frontend/`.
-- Add scripts in `backend/package.json` for `start` and `dev` (nodemon) if you want.
+### Frontend (Vercel/Netlify)
 
-Completion summary: README updated to include project overview, tech stack badges, setup steps for backend and frontend, environment variables discovered in `backend/cloudinary.js` and `backend/db.js`, and API endpoints inferred from `backend/routes/*.js`.
+1. Push your code to GitHub
+2. Connect your repository to Vercel/Netlify
+3. Set environment variable: `VITE_API_URL`
+4. Deploy
 
+### Backend (Render/Railway/Heroku)
 
+1. Push your code to GitHub
+2. Connect repository to hosting platform
+3. Set all environment variables
+4. Deploy
 
+---
 
+## 🤝 Contributing
 
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+**Raghav Verma**
+
+- GitHub: [@Raghavverma109](https://github.com/Raghavverma109)
+- LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
+- Email: your.email@example.com
+
+---
+
+## 🙏 Acknowledgments
+
+- React team for the amazing framework
+- MongoDB for the flexible database
+- Cloudinary for image hosting solution
+- Tailwind CSS for the utility-first CSS framework
+- All contributors who helped improve this project
+
+---
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Issues](https://github.com/Raghavverma109/voting_app/issues) page
+2. Create a new issue if your problem isn't listed
+3. Contact the maintainer directly
+
+---
+
+<div align="center">
+
+**⭐ Star this repository if you find it helpful!**
+
+Made with ❤️ by Raghav Verma
+
+</div>
