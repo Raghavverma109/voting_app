@@ -25,7 +25,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     phone: {
-        type: Number,
+        // type: Number,
+        type: String,
         required: true
     },
     address: {
@@ -33,7 +34,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     addharCardNumber: {
-        type: Number,
+        // type: Number,
+        type: String,
         required: true,
         unique: true
     },

@@ -32,31 +32,65 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  const login = async ({ aadhar, password }) => {
-    setLoading(true)
+  // const login = async ({ aadharCardNumber, password }) => {
+  //   setLoading(true)
+
+
+  //   console.log("Attempting to log in with:", { aadharCardNumber, password });
+  //   try {
+  //     const { data } = await api.post('/user/login', {
+
+  //       // addharCardNumber: aadhar,
+  //       addharCardNumber ,
+  //       password
+  //     })
+  //     const token = data.token
+  //     if (!token) throw new Error('No token in response')
+  //     // saveAuth(token, { addharCardNumber: aadhar })
+  //     saveAuth(token)
+  //     await loadProfile() // 🚀 fetch the full profile immediately
+  //     // setUser({ addharCardNumber: aadhar })
+  //     toast.success('Logged in ✅')
+
+  //     return true
+  //   } catch (err) {
+  //     console.error(err)
+  //     toast.error(err?.response?.data?.error || 'Login failed')
+  //     return false
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
+  const login = async ({ addharCardNumber, password }) => {
+    setLoading(true);
+
+    // For debugging, you can check what you receive
+    console.log("Login function received:", { addharCardNumber, password });
+
     try {
-      const { data } = await api.post('/user/login', {
+        // Now the variable name matches the key perfectly
+        const { data } = await api.post('/user/login', {
+            addharCardNumber: addharCardNumber,
+            password: password
+        });
 
-        addharCardNumber: aadhar,
-        password
-      })
-      const token = data.token
-      if (!token) throw new Error('No token in response')
-      // saveAuth(token, { addharCardNumber: aadhar })
-      saveAuth(token)
-      await loadProfile() // 🚀 fetch the full profile immediately
-      // setUser({ addharCardNumber: aadhar })
-      toast.success('Logged in ✅')
+        const token = data.token;
+        if (!token) throw new Error('No token in response');
 
-      return true
+        saveAuth(token);
+        await loadProfile();
+        toast.success('Logged in ✅');
+        return true;
+
     } catch (err) {
-      console.error(err)
-      toast.error(err?.response?.data?.error || 'Login failed')
-      return false
+        console.error(err);
+        toast.error(err?.response?.data?.error || 'Login failed');
+        return false;
     } finally {
-      setLoading(false)
+        setLoading(false);
     }
-  }
+};
 
   const signup = async ({ aadhar, password, name, age, address, email, phone, dob, photo }) => {
     setLoading(true)

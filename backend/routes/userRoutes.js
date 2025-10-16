@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { jwtAuthMiddleware, generateToken } = require('./../JWT'); // Import the JWT middleware and token generation function
+const { jwtAuthMiddleware, generateToken } = require('./../jwt'); // Import the JWT middleware and token generation function
 
 
 // Import the USER model from the models directory
@@ -10,6 +10,7 @@ const { use } = require('passport');
 // POST method to create a new user - SIGNUP
 
 router.post('/signup', async (req, res) => {
+  console.log("INCOMING HEADERS:", req.headers);
   try {
     const data = req.body;
     console.log('Received data for new User:', data);
@@ -66,25 +67,56 @@ router.post('/signup', async (req, res) => {
 });
 
 
-// LOGIN method to authenticate a person
+// // LOGIN method to authenticate a person
+
+// router.post('/login', async (req, res) => {
+//   const { addharCardNumber, password } = req.body; // Extract username and password from request body
+//   try {
+//     const user = await User.findOne({ addharCardNumber: addharCardNumber }); // Find person by username
+//     if (!user || !(await user.comparePassword(password))) {
+//       return res.status(404).json({ error: 'Invalid username or password' }); // If person not found, return 404
+//     }
+//     //generate JWT token
+//     const payload = {
+//       id: user.id,
+//     };
+//     const token = generateToken(payload); // Generate JWT token
+//     res.status(200).json({ token });// Send the token as a JSON response})  
+//   } catch (err) {
+//     console.error('Error during login:', err);
+//     res.status(500).json({ error: 'Failed to login' }); // If an error occurs, return 500
+//   }
+// });
+
+
 
 router.post('/login', async (req, res) => {
-  const { addharCardNumber, password } = req.body; // Extract username and password from request body
-  try {
-    const user = await User.findOne({ addharCardNumber: addharCardNumber }); // Find person by username
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(404).json({ error: 'Invalid username or password' }); // If person not found, return 404
+    const { addharCardNumber, password } = req.body;
+    try {
+        // --- ADD THIS LOG ---
+        console.log('--- Login Attempt ---');
+        console.log('Aadhar received from Postman:', addharCardNumber);
+
+        const user = await User.findOne({ addharCardNumber: addharCardNumber });
+
+        // --- ADD THIS LOG ---
+        console.log('User found in database:', user); // This will be null if not found
+
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(401).json({ error: 'Invalid Aadhar number or password' }); // Changed to 401
+        }
+        
+        //generate JWT token
+        const payload = {
+            id: user.id,
+            role: user.role // Make sure to add the role for admin checks!
+        };
+        const token = generateToken(payload);
+        res.status(200).json({ token });
+    } catch (err) {
+        console.error('Error during login:', err);
+        res.status(500).json({ error: 'Failed to login' });
     }
-    //generate JWT token
-    const payload = {
-      id: user.id,
-    };
-    const token = generateToken(payload); // Generate JWT token
-    res.status(200).json({ token });// Send the token as a JSON response})  
-  } catch (err) {
-    console.error('Error during login:', err);
-    res.status(500).json({ error: 'Failed to login' }); // If an error occurs, return 500
-  }
 });
 
 // Profile route to get the authenticated user's profile

@@ -13,7 +13,7 @@ export default function Login() {
 
   const submit = async (e) => {
     e.preventDefault()
-    const ok = await login({ aadhar, password })
+    const ok = await login({ addharCardNumber: aadhar, password })
     if (ok) nav('/dashboard')
   }
 

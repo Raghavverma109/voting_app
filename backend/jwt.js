@@ -40,5 +40,5 @@ const generateToken = (userData) => {
         expiresIn: '1d' // or '1h', '2d' etc.
     });
 };
-
+console.log("generated token is :", generateToken({ id: "sampleUserId" }));
 module.exports = { jwtAuthMiddleware, generateToken };

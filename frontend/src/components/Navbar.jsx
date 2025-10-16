@@ -23,8 +23,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center gap-8">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="flex items-center gap-3 group"
               onClick={closeMobileMenu}
             >
@@ -36,14 +36,14 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Desktop Navigation Links */}
+
             <div className="hidden md:flex items-center gap-1">
-              <Link 
-                to="/results" 
+              <Link
+                to="/live-results" // ✅ Changed this from "/results"
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200"
               >
-                <BarChart size={18} />
-                <span className="font-medium">Results</span>
+                <BarChart size={18} color='red' />
+                <span className="font-medium">Live Results</span>
               </Link>
             </div>
           </div>
@@ -52,16 +52,16 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-2">
             {user ? (
               <>
-                <Link 
-                  to="/dashboard" 
+                <Link
+                  to="/dashboard"
                   className="flex items-center gap-2 px-4 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200"
                 >
                   <Home size={18} />
                   <span className="font-medium">Dashboard</span>
                 </Link>
 
-                <Link 
-                  to="/profile" 
+                <Link
+                  to="/profile"
                   className="flex items-center gap-2 px-4 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200"
                 >
                   <User size={18} />
@@ -69,8 +69,8 @@ export default function Navbar() {
                 </Link>
 
                 {isAdmin() && (
-                  <Link 
-                    to="/admin" 
+                  <Link
+                    to="/admin"
                     className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white font-medium hover:bg-slate-750 transition-all duration-200"
                   >
                     <ShieldCheck size={18} />
@@ -78,8 +78,8 @@ export default function Navbar() {
                   </Link>
                 )}
 
-                <button 
-                  onClick={handleLogout} 
+                <button
+                  onClick={handleLogout}
                   className="flex items-center gap-2 px-4 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200 ml-2"
                 >
                   <LogOut size={18} />
@@ -88,14 +88,14 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link 
-                  to="/login" 
+                <Link
+                  to="/login"
                   className="px-5 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 font-medium transition-all duration-200"
                 >
                   Login
                 </Link>
-                <Link 
-                  to="/signup" 
+                <Link
+                  to="/signup"
                   className="px-5 py-2 rounded-lg bg-white text-slate-900 font-semibold hover:bg-slate-100 transition-all duration-200 shadow-lg"
                 >
                   Sign Up
@@ -116,8 +116,8 @@ export default function Navbar() {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-slate-800 pt-4 space-y-2">
-            <Link 
-              to="/results" 
+            <Link
+              to="/results"
               onClick={closeMobileMenu}
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200"
             >
@@ -127,8 +127,8 @@ export default function Navbar() {
 
             {user ? (
               <>
-                <Link 
-                  to="/dashboard" 
+                <Link
+                  to="/dashboard"
                   onClick={closeMobileMenu}
                   className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200"
                 >
@@ -136,8 +136,8 @@ export default function Navbar() {
                   <span className="font-medium">Dashboard</span>
                 </Link>
 
-                <Link 
-                  to="/profile" 
+                <Link
+                  to="/profile"
                   onClick={closeMobileMenu}
                   className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200"
                 >
@@ -146,8 +146,8 @@ export default function Navbar() {
                 </Link>
 
                 {isAdmin() && (
-                  <Link 
-                    to="/admin" 
+                  <Link
+                    to="/admin"
                     onClick={closeMobileMenu}
                     className="flex items-center gap-3 px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white font-medium transition-all duration-200"
                   >
@@ -156,8 +156,8 @@ export default function Navbar() {
                   </Link>
                 )}
 
-                <button 
-                  onClick={handleLogout} 
+                <button
+                  onClick={handleLogout}
                   className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200 w-full text-left"
                 >
                   <LogOut size={20} />
@@ -166,15 +166,15 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link 
-                  to="/login" 
+                <Link
+                  to="/login"
                   onClick={closeMobileMenu}
                   className="block px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 font-medium transition-all duration-200"
                 >
                   Login
                 </Link>
-                <Link 
-                  to="/signup" 
+                <Link
+                  to="/signup"
                   onClick={closeMobileMenu}
                   className="block px-4 py-3 rounded-lg bg-white text-slate-900 font-semibold text-center transition-all duration-200"
                 >
