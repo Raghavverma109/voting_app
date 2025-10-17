@@ -23,15 +23,17 @@ app.use(express.urlencoded({ extended: true }))
 // Import the routes
 const userRoutes = require('./routes/userRoutes');
 const candidateRoutes = require('./routes/candidateRoutes');
+const electionRoutes = require("./routes/electionRoutes");  
 
 app.use(cors({
   origin: "http://localhost:5173",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true
 }));
 
 app.use('/user', userRoutes); // Use the User routes
 app.use('/candidates', candidateRoutes); // Use the Candidate routes
+app.use("/elections", electionRoutes); // Use the Election routest
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)

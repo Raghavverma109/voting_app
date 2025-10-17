@@ -25,15 +25,39 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     phone: {
-        type: Number,
-        required: true
-    },
-    address: {
+        // type: Number,
         type: String,
         required: true
     },
+    address: {
+        city: { type: String, required: true },
+        state: { type: String, required: true },
+        street: { type: String }, // Optional street details
+        pincode: { type: String, required: true, match: [/^\d{6}$/, 'Pincode must be 6 digits'] }
+    },
+    
+    // ✅ NEW: Add 'sex' with predefined options for data consistency
+    sex: {
+        type: String,
+        enum: ['Male', 'Female', 'Other'],
+        required: true
+    },
+    
+    // ✅ IMPROVEMENT: Use a single 'relative' object for S/O, W/O, D/O etc.
+    relative: {
+        relationType: {
+            type: String,
+            enum: ['S/O', 'W/O', 'D/O'], // Son Of, Wife Of, Daughter Of
+            required: true
+        },
+        relativeName: {
+            type: String,
+            required: true
+        }
+    },
     addharCardNumber: {
-        type: Number,
+        // type: Number,
+        type: String,
         required: true,
         unique: true
     },

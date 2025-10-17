@@ -1,0 +1,165 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": { "name": "Andhra Pradesh" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [81.68, 17.68],
+                        [82.19, 17.98],
+                        [82.19, 18.45],
+                        [81.68, 18.45],
+                        [81.68, 17.68]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "Karnataka" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [75.0, 12.5],
+                        [76.0, 12.5],
+                        [76.0, 13.5],
+                        [75.0, 13.5],
+                        [75.0, 12.5]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "Tamil Nadu" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [78.0, 10.0],
+                        [79.0, 10.0],
+                        [79.0, 11.0],
+                        [78.0, 11.0],
+                        [78.0, 10.0]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "Maharashtra" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [73.0, 18.0],
+                        [74.5, 18.0],
+                        [74.5, 20.0],
+                        [73.0, 20.0],
+                        [73.0, 18.0]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "Gujarat" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [71.0, 22.0],
+                        [72.5, 22.0],
+                        [72.5, 24.0],
+                        [71.0, 24.0],
+                        [71.0, 22.0]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "West Bengal" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [87.0, 22.0],
+                        [88.5, 22.0],
+                        [88.5, 24.0],
+                        [87.0, 24.0],
+                        [87.0, 22.0]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "Rajasthan" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [73.0, 25.0],
+                        [75.0, 25.0],
+                        [75.0, 28.0],
+                        [73.0, 28.0],
+                        [73.0, 25.0]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "Kerala" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [76.0, 9.0],
+                        [77.0, 9.0],
+                        [77.0, 10.5],
+                        [76.0, 10.5],
+                        [76.0, 9.0]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "Punjab" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [74.0, 30.0],
+                        [75.5, 30.0],
+                        [75.5, 32.0],
+                        [74.0, 32.0],
+                        [74.0, 30.0]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": { "name": "Uttar Pradesh" },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [80.0, 25.0],
+                        [83.0, 25.0],
+                        [83.0, 28.0],
+                        [80.0, 28.0],
+                        [80.0, 25.0]
+                    ]
+                ]
+            }
+        }
+    ]
+}
