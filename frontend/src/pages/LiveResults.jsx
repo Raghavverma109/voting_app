@@ -89,7 +89,7 @@ const LiveResults = () => {
       
       {liveElection && (
         <ResultChart 
-          // ❌ REMOVED the key prop
+          // ❌ REMOVED the key prop-
           // ✅ Pass the animated chartData state to the component
           data={chartData} 
         />

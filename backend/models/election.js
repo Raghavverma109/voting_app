@@ -11,7 +11,8 @@ const electionSchema = new mongoose.Schema({
             votes: [
                 {
                     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-                    votedAt: { type: Date, default: Date.now }
+                    votedAt: { type: Date, default: Date.now },
+                    voterState: { type: String, required: true }
                 }
             ]
         }

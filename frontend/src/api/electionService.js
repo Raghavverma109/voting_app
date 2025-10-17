@@ -40,3 +40,23 @@ export const getElectionResults = () => {
 export const getCurrentElection = () => {
   return api.get('/elections/current');
 };
+
+// Fetch audit details for a specific election
+export const getElectionAudit = (electionId) => {
+  return api.get(`/elections/${electionId}/audit`);
+};
+
+// GET a single election by its ID
+export const getElectionById = (electionId) => {
+  return api.get(`/elections/${electionId}`);
+};
+
+// POST a vote to a specific election
+export const castVote = (electionId, candidateId) => {
+  // The backend will get the userId from the JWT token
+  return api.post(`/elections/${electionId}/vote`, { candidateId });
+};
+
+export const getElectionMapResults = (electionId) => {
+  return api.get(`/elections/${electionId}/map-results`);
+};

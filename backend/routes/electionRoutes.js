@@ -82,13 +82,48 @@ router.get('/', async (req, res) => {
 });
 
 // POST /elections/:electionId/vote (SECURED & ATOMIC)
+// Add this at the top of your electionRoutes.js file
+const User = require('../models/user');
+
+// ... your other routes ...
+
 router.post('/:electionId/vote', jwtAuthMiddleware, async (req, res) => {
     const { electionId } = req.params;
-    const { candidateId } = req.body; // Only need candidateId from body
-    const userId = req.user.id; // Get user ID from the verified token
+    const { candidateId } = req.body;
+    
+    // Get user details from the verified token
+    const userId = req.user.id;
+    const userRole = req.user.role;
 
     try {
-        // 1. Check if the user has already voted in this election
+        // --- CHECK 1: Block Admins ---
+        if (userRole === 'admin') {
+            return res.status(403).json({ message: 'Admins are not allowed to vote.' });
+        }
+
+        // --- CHECK 2: Verify Voter's Age (New) ---
+        const voter = await User.findById(userId);
+        if (!voter || !voter.dob  || !voter.address || !voter.address.state) {
+            return res.status(404).json({ message: 'Voter address information is incomplete.' });
+        }
+
+        const voterState = voter.address.state;
+        
+        const today = new Date();
+        const birthDate = new Date(voter.dob);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        
+        // Adjust age if the user's birthday hasn't occurred yet this year
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        if (age < 18) {
+            return res.status(403).json({ message: 'Forbidden: Voters must be at least 18 years old.' });
+        }
+
+        // --- CHECK 3: Prevent Multiple Votes ---
         const election = await Election.findById(electionId);
         if (!election) {
             return res.status(404).json({ message: "Election not found" });
@@ -102,12 +137,12 @@ router.post('/:electionId/vote', jwtAuthMiddleware, async (req, res) => {
             return res.status(400).json({ message: "You have already cast your vote in this election." });
         }
 
-        // 2. Atomically update the vote count and add the user's vote
+        // --- Cast the Vote ---
         const updateResult = await Election.updateOne(
             { "_id": electionId, "parties.candidate": candidateId },
             { 
-                "$inc": { "parties.$.voteCount": 1 }, // Increment the voteCount
-                "$push": { "parties.$.votes": { user: userId } } // Add user to the votes array
+                "$inc": { "parties.$.voteCount": 1 },
+                "$push": { "parties.$.votes": { user: userId, voterState: voterState } }
             }
         );
 
@@ -176,7 +211,7 @@ router.get('/results', async (req, res) => {
                 dateOfElection: election.dateOfElection,
                 totalVotesCasted: totalVotes,
                 result: isTie ? "Tie" : "Winner Declared",
-                winner: isTie ? 
+                winner: isTie ?
                     sortedParties.filter(p => p.voteCount === winner.voteCount).map(w => ({ name: w.candidate.name, votes: w.voteCount })) :
                     { name: winner.candidate.name, party: winner.candidate.party, votes: winner.voteCount },
                 participants: sortedParties.map(p => ({
@@ -194,3 +229,124 @@ router.get('/results', async (req, res) => {
 });
 
 module.exports = router;
+
+
+// GET /elections/:electionId/audit
+// Fetches a single election's details and a list of all voters who participated.
+router.get('/:electionId/audit', jwtAuthMiddleware, adminCheck, async (req, res) => {
+    console.log("fetch the req body for audit:", req.params.electionId);
+
+    try {
+        const election = await Election.findById(req.params.electionId)
+            .populate('parties.candidate', 'name party image') // Populate candidate details
+            // New line
+            .populate('parties.votes.user', 'name addharCardNumber profilePhoto dob address isVerified sex relative');
+
+        if (!election) {
+            return res.status(404).json({ message: 'Election not found' });
+        }
+
+
+        // Create a flat, unique list of voters from all parties in the election
+        const votersMap = new Map();
+        election.parties.forEach(party => {
+            party.votes.forEach(vote => {
+                if (vote.user && !votersMap.has(vote.user._id.toString())) {
+                    votersMap.set(vote.user._id.toString(), vote.user);
+                }
+            });
+        });
+
+        const voters = Array.from(votersMap.values());
+
+        const auditData = {
+            _id: election._id,
+            title: election.title,
+            dateOfElection: election.dateOfElection,
+            totalVotes: voters.length,
+            participants: election.parties.map(p => ({
+                name: p.candidate.name,
+                party: p.candidate.party,
+                voteCount: p.voteCount,
+            })),
+            voters: voters, // The list of users who voted
+        };
+
+        res.status(200).json(auditData);
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// GET a single election by its ID
+router.get('/:electionId', async (req, res) => {
+    try {
+        const election = await Election.findById(req.params.electionId)
+            .populate({
+                path: 'parties.candidate',
+                select: 'name image party' // Populate candidate details
+            });
+
+        if (!election) {
+            return res.status(404).json({ message: 'Election not found' });
+        }
+        res.status(200).json(election);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+
+// GET /elections/:electionId/map-results
+// Aggregates vote counts by state for a specific election.
+router.get('/:electionId/map-results', async (req, res) => {
+    try {
+        const electionId = new mongoose.Types.ObjectId(req.params.electionId);
+
+        const resultsByState = await Election.aggregate([
+            // Match the specific election
+            { $match: { _id: electionId } },
+            // Deconstruct the parties array
+            { $unwind: '$parties' },
+            // Deconstruct the votes array
+            { $unwind: '$parties.votes' },
+            // Populate the candidate details
+            { $lookup: { from: 'candidates', localField: 'parties.candidate', foreignField: '_id', as: 'candidateInfo' } },
+            // Group votes by state and party
+            { $group: {
+                _id: { state: '$parties.votes.voterState', party: '$candidateInfo.party' },
+                votes: { $sum: 1 }
+            }},
+            // Group again by state to create a list of party results
+            { $group: {
+                _id: '$_id.state',
+                results: { $push: { party: '$_id.party', votes: '$votes' } },
+                totalVotes: { $sum: '$votes' }
+            }},
+            // Determine the winning party for each state
+            { $addFields: {
+                winningParty: {
+                    $reduce: {
+                        input: '$results',
+                        initial: { votes: 0 },
+                        in: { $cond: [{ $gt: ['$$this.votes', '$$value.votes'] }, '$$this', '$$value'] }
+                    }
+                }
+            }},
+            // Final projection
+            { $project: {
+                _id: 0,
+                state: '$_id',
+                totalVotes: 1,
+                results: 1,
+                winningParty: '$winningParty.party'
+            }}
+        ]);
+
+        res.json(resultsByState);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});

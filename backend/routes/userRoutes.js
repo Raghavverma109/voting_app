@@ -7,65 +7,63 @@ const { jwtAuthMiddleware, generateToken } = require('./../jwt'); // Import the 
 const User = require('../models/user');
 const { use } = require('passport');
 
-// POST method to create a new user - SIGNUP
+// in backend/routes/userRoutes.js
 
 router.post('/signup', async (req, res) => {
-  console.log("INCOMING HEADERS:", req.headers);
-  try {
-    const data = req.body;
-    console.log('Received data for new User:', data);
+    try {
+        // ✅ FIX: Expect the nested objects directly from req.body
+        const {
+            name, age, email, password, phone,
+            address, // <-- Expect the 'address' object
+            sex,
+            relative, // <-- Expect the 'relative' object
+            addharCardNumber, role, profilePhoto, dob
+        } = req.body;
 
-    // ✅ Ensure only one admin
-    const adminUser = await User.findOne({ role: 'admin' });
-    if (data.role === 'admin' && adminUser) {
-      return res.status(400).json({ error: 'Admin user already exists' });
+        // --- Your existing validation checks (admin, aadhar, etc.) ---
+        const adminUser = await User.findOne({ role: 'admin' });
+        if (role === 'admin' && adminUser) {
+            return res.status(400).json({ error: 'Admin user already exists' });
+        }
+        // ... other validation checks ...
+
+        // ✅ FIX: Pass the objects directly to the User constructor
+        const newUser = new User({
+            name,
+            age,
+            email,
+            password,
+            phone,
+            address, // <-- Pass the whole address object
+            sex,
+            relative, // <-- Pass the whole relative object
+            addharCardNumber,
+            role,
+            profilePhoto,
+            dob
+        });
+
+        const savedUser = await newUser.save();
+
+        const payload = {
+            id: savedUser.id,
+            role: savedUser.role
+        };
+        const token = generateToken(payload);
+
+        res.status(201).json({
+            message: 'User created successfully',
+            user: savedUser,
+            token: token
+        });
+    } catch (err) {
+        console.error('Error creating User:', err);
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ error: err.message });
+        }
+        res.status(500).json({ error: 'Failed to create User' });
     }
-
-    // ✅ Validate Aadhaar
-    if (!/^\d{12}$/.test(data.addharCardNumber)) {
-      return res.status(400).json({ error: 'Aadhar number must be exactly 12 digits' });
-    }
-
-    // ✅ Check duplicates by Aadhaar
-    const existingUser = await User.findOne({ addharCardNumber: data.addharCardNumber });
-    if (existingUser) {
-      return res.status(400).json({ error: 'User with this Aadhar number already exists' });
-    }
-
-    // ✅ Handle optional email (null allowed)
-    let email = null;
-    if (data.email && data.email.trim() !== "") {
-      const existingEmailUser = await User.findOne({ email: data.email.trim() });
-      if (existingEmailUser) {
-        return res.status(400).json({ error: 'Email already exists' });
-      }
-      email = data.email.trim();
-    }
-
-    // ✅ Create new user
-    const newUser = new User({
-      ...req.body,
-      email: email, // null if not provided
-      profilePhoto: req.body.profilePhoto, // Cloudinary URL
-    });
-
-    const savedUser = await newUser.save();
-
-    // ✅ Generate JWT token
-    const payload = { id: savedUser.id };
-    const token = generateToken(payload);
-
-    res.status(201).json({
-      message: 'User created successfully',
-      person: savedUser,
-      token: token
-    });
-  } catch (err) {
-    console.error('Error creating User:', err);
-    res.status(500).json({ error: 'Failed to create User' });
-  }
 });
-
 
 // // LOGIN method to authenticate a person
 
@@ -90,29 +88,53 @@ router.post('/signup', async (req, res) => {
 
 
 
+// router.post('/login', async (req, res) => {
+//     const { addharCardNumber, password } = req.body;
+//     try {
+//         // --- ADD THIS LOG ---
+//         console.log('--- Login Attempt ---');
+//         console.log('Aadhar received from Postman:', addharCardNumber);
+
+//         const user = await User.findOne({ addharCardNumber: addharCardNumber });
+
+//         // --- ADD THIS LOG ---
+//         console.log('User found in database:', user); // This will be null if not found
+
+//         if (!user || !(await user.comparePassword(password))) {
+//             return res.status(401).json({ error: 'Invalid Aadhar number or password' }); // Changed to 401
+//         }
+        
+//         //generate JWT token
+//         const payload = {
+//             id: user.id,
+//             role: user.role // Make sure to add the role for admin checks!
+//         };
+//         const token = generateToken(payload);
+//         res.status(200).json({ token });
+//     } catch (err) {
+//         console.error('Error during login:', err);
+//         res.status(500).json({ error: 'Failed to login' });
+//     }
+// });
+
 router.post('/login', async (req, res) => {
     const { addharCardNumber, password } = req.body;
     try {
-        // --- ADD THIS LOG ---
-        console.log('--- Login Attempt ---');
-        console.log('Aadhar received from Postman:', addharCardNumber);
-
         const user = await User.findOne({ addharCardNumber: addharCardNumber });
 
-        // --- ADD THIS LOG ---
-        console.log('User found in database:', user); // This will be null if not found
-
         if (!user || !(await user.comparePassword(password))) {
-            return res.status(401).json({ error: 'Invalid Aadhar number or password' }); // Changed to 401
+            return res.status(401).json({ error: 'Invalid Aadhar number or password' });
         }
         
-        //generate JWT token
         const payload = {
             id: user.id,
-            role: user.role // Make sure to add the role for admin checks!
+            role: user.role
         };
         const token = generateToken(payload);
-        res.status(200).json({ token });
+        
+        // ✅ IMPROVEMENT: Send back both the token and the user object
+        res.status(200).json({ token, user: user });
+
     } catch (err) {
         console.error('Error during login:', err);
         res.status(500).json({ error: 'Failed to login' });

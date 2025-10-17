@@ -12,6 +12,9 @@ import { useAuth } from '../contexts/AuthContext';
 import ManageElections from '../pages/ManageElections';
 import ManageParties from '../pages/ManageParties'; // Import the new parties page
 import LiveResults from '../pages/LiveResults';
+import ElectionHistory from '../pages/ElectionHistory';
+import AuditDetail from '../pages/AuditDetail';
+import MapResults from '../pages/MapResults';
 
 // This component now acts as a "gatekeeper" for protected sections.
 const ProtectedRoute = ({ adminOnly = false }) => {
@@ -42,6 +45,7 @@ export default function AppRoutes() {
         <Route path="/results" element={<Results />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/live-results" element={<LiveResults />} />
+        <Route path="/map-results" element={<MapResults />} />
       </Route>
 
       {/* --- Nested Admin-Only Routes --- */}
@@ -52,6 +56,10 @@ export default function AppRoutes() {
         {/* Child routes are nested and inherit the path and protection */}
         <Route path="parties" element={<ManageParties />} />
         <Route path="elections" element={<ManageElections />} />
+
+
+        <Route path="history" element={<ElectionHistory />} />
+        <Route path="history/:electionId" element={<AuditDetail />} />
       </Route>
 
       {/* fallback route */}

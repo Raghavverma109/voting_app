@@ -1,147 +1,94 @@
-// src/contexts/AuthContext.jsx
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import api from '../api/axiosConfig'
-import { saveAuth, clearAuth, getUser as _getUser } from '../utils/auth'
-import toast from 'react-hot-toast'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import api from '../api/axiosConfig';
+import { saveAuth, clearAuth, getUser as getLocalUser, getToken } from '../utils/auth';
+import toast from 'react-hot-toast';
 
-const AuthContext = createContext()
-export const useAuth = () => useContext(AuthContext)
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(_getUser())
-  const [loading, setLoading] = useState(false)
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) loadProfile()
-  }, [])
+    const loadProfile = useCallback(async () => {
+        const token = getToken();
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+        try {
+            // Assuming you have a /profile route to get user data
+            const { data } = await api.get('/user/profile'); 
+            setUser(data);
+        } catch (error) {
+            console.error("Failed to fetch profile", error);
+            clearAuth(); // Clear invalid auth data
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
-  const loadProfile = async () => {
-    setLoading(true)
-    try {
-      const { data } = await api.get('/user/profile')
-      console.log('Profile data:', data)
-      setUser(data.user || data)
-      localStorage.setItem('user', JSON.stringify(data.user || data))
-    } catch (err) {
-      console.error('loadProfile', err)
-      clearAuth()
-      setUser(null)
-    } finally {
-      setLoading(false)
-    }
-  }
+    useEffect(() => {
+        loadProfile();
+    }, [loadProfile]);
 
-  // const login = async ({ aadharCardNumber, password }) => {
-  //   setLoading(true)
+    const login = async (credentials) => {
+        const toastId = toast.loading('Logging in...');
+        try {
+            const { data } = await api.post('/user/login', credentials);
+            saveAuth(data.token, data.user); // Save both token and user object
+            setUser(data.user);
+            toast.success('Logged in successfully!', { id: toastId });
+            return true;
+        } catch (err) {
+            toast.error(err?.response?.data?.error || 'Login failed', { id: toastId });
+            return false;
+        }
+    };
 
+    // ✅ --- MODIFIED SIGNUP FUNCTION ---
+    const signup = async (userData) => {
+        const toastId = toast.loading('Creating your account...');
+        console.log("Signup data being sent......................... :", userData);
+        try {
+            // The userData object is already structured correctly by Signup.jsx.
+            // We just pass it directly to the API endpoint.
+            const { data } = await api.post('/user/signup', userData);
 
-  //   console.log("Attempting to log in with:", { aadharCardNumber, password });
-  //   try {
-  //     const { data } = await api.post('/user/login', {
+            // After a successful signup, log the user in immediately.
+            saveAuth(data.token, data.user); // Save the new token and user object.
+            setUser(data.user); // Update the user state in the context.
+            
+            toast.success('Account created successfully!', { id: toastId });
+            return true;
+        } catch (err) {
+            // Display the specific validation error sent from the backend.
+            toast.error(err?.response?.data?.error || 'Signup failed. Please check your details.', { id: toastId });
+            console.error("Signup Error:", err.response?.data || err);
+            return false;
+        }
+    };
 
-  //       // addharCardNumber: aadhar,
-  //       addharCardNumber ,
-  //       password
-  //     })
-  //     const token = data.token
-  //     if (!token) throw new Error('No token in response')
-  //     // saveAuth(token, { addharCardNumber: aadhar })
-  //     saveAuth(token)
-  //     await loadProfile() // 🚀 fetch the full profile immediately
-  //     // setUser({ addharCardNumber: aadhar })
-  //     toast.success('Logged in ✅')
+    const logout = () => {
+        clearAuth();
+        setUser(null);
+        toast.success('Logged out.');
+    };
 
-  //     return true
-  //   } catch (err) {
-  //     console.error(err)
-  //     toast.error(err?.response?.data?.error || 'Login failed')
-  //     return false
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
+    const value = {
+        user,
+        loading,
+        login,
+        signup,
+        logout,
+        refreshProfile: loadProfile // Expose a function to manually refresh profile
+    };
 
-  const login = async ({ addharCardNumber, password }) => {
-    setLoading(true);
-
-    // For debugging, you can check what you receive
-    console.log("Login function received:", { addharCardNumber, password });
-
-    try {
-        // Now the variable name matches the key perfectly
-        const { data } = await api.post('/user/login', {
-            addharCardNumber: addharCardNumber,
-            password: password
-        });
-
-        const token = data.token;
-        if (!token) throw new Error('No token in response');
-
-        saveAuth(token);
-        await loadProfile();
-        toast.success('Logged in ✅');
-        return true;
-
-    } catch (err) {
-        console.error(err);
-        toast.error(err?.response?.data?.error || 'Login failed');
-        return false;
-    } finally {
-        setLoading(false);
-    }
+    return (
+        <AuthContext.Provider value={value}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
-
-  const signup = async ({ aadhar, password, name, age, address, email, phone, dob, photo }) => {
-    setLoading(true)
-    try {
-      const { data } = await api.post('/user/signup', {
-        addharCardNumber: aadhar,
-        password,
-        name,
-        age,
-        address,
-        phone,
-        dob,
-            profilePhoto: photo,
-        isVerified: false,
-        // ...(email && { email }),
-        email: email?.trim() || null,
-      })
-      const token = data.token
-      const userObj = data.person
-      if (token) {
-        saveAuth(token, userObj)
-        setUser(userObj)
-      }
-      toast.success('Account created 🎉')
-      return true
-    } catch (err) {
-      console.error(err)
-      toast.error(err?.response?.data?.error || 'Signup failed')
-      return false
-    } finally {
-      setLoading(false)
-    }
-  }
-
-
-  const logout = () => {
-    clearAuth()
-    setUser(null)
-    toast('Logged out')
-  }
-
-  const value = {
-    user,
-    setUser,
-    loading,
-    login,
-    signup,
-    logout,
-    refreshProfile: loadProfile,
-    isAdmin: () => user?.role === 'admin',
-  }
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
