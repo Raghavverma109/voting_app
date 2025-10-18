@@ -4,13 +4,7 @@ import React from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import indiaStates from '../assets/indian-states.json';
-
-const partyColors = {
-    BJP: '#FF9933',
-    INC: '#19AA23',
-    AAP: '#0072B0',
-    default: '#64748b'
-};
+import { partyColors } from '../utils/mapConfig';
 
 const ElectionMapView = ({ mapData }) => {
     const mapCenter = [22.5937, 78.9629];

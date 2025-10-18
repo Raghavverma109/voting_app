@@ -161,6 +161,17 @@ export default function Signup() {
   };
 
 
+  const indianStates = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
+    "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim",
+    "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand",
+    "West Bengal", "Andaman & Nicobar Islands", "Chandigarh",
+    "Dadra & Nagar Haveli & Daman & Diu", "Delhi", "Jammu & Kashmir",
+    "Ladakh", "Lakshadweep", "Puducherry"
+  ]
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-900 py-12 px-4 flex items-center justify-center">
       {/* --- MODIFIED Signup Form --- */}
@@ -274,20 +285,44 @@ export default function Signup() {
             <div className="grid md:grid-cols-2 gap-5">
               <div>
                 <label>Phone No.</label>
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="10-digit mobile number" required className="w-full pl-4 pr-4 py-3.5 bg-slate-900/50 border-2 border-slate-700 rounded-xl text-white" />
+                <input type="tel" value={phone} maxLength={10} onChange={(e) => setPhone(e.target.value)} placeholder="10-digit mobile number" required className="w-full pl-4 pr-4 py-3.5 bg-slate-900/50 border-2 border-slate-700 rounded-xl text-white" />
               </div>
               <div>
                 <label>Email Address (Optional)</label>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your.email@example.com" className="w-full pl-4 pr-4 py-3.5 bg-slate-900/50 border-2 border-slate-700 rounded-xl text-white" />
               </div>
-              {/* ✅ Replaced single address input with detailed fields */}
+
               <div>
                 <label>City</label>
                 <input value={city} onChange={(e) => setCity(e.target.value)} placeholder="e.g., Aligarh" required className="w-full pl-4 pr-4 py-3.5 bg-slate-900/50 border-2 border-slate-700 rounded-xl text-white" />
               </div>
               <div>
                 <label>State</label>
-                <input value={state} onChange={(e) => setState(e.target.value)} placeholder="e.g., Uttar Pradesh" required className="w-full pl-4 pr-4 py-3.5 bg-slate-900/50 border-2 border-slate-700 rounded-xl text-white" />
+                {/* Custom dropdown using <details> so it always expands downward (UI-only change) */}
+                <details className="w-97 bg-slate-900/50 border-2 border-slate-700 rounded-xl text-white">
+                  <summary className="list-none cursor-pointer px-4 py-3.5 flex items-center justify-between">
+                    <span className={`${state ? '' : 'text-slate-400'}`}>{state || 'Select State'}</span>
+                    <span className="ml-2">▾</span>
+                  </summary>
+
+                  <div className="max-h-56 overflow-auto mt-1 bg-slate-900/80 rounded-b-xl border-t border-slate-700">
+                    {indianStates.sort().map(stateName => (
+                      <button
+                        key={stateName}
+                        type="button"
+                        onClick={(e) => {
+                          setState(stateName);
+                          // close the details after selecting
+                          const detailsEl = e.currentTarget.closest('details');
+                          if (detailsEl) detailsEl.open = false;
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-slate-700 transition text-white"
+                      >
+                        {stateName}
+                      </button>
+                    ))}
+                  </div>
+                </details>
               </div>
               <div className="md:col-span-2">
                 <label>Pincode</label>
