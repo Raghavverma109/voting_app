@@ -3,6 +3,8 @@ const router = express.Router();
 const { jwtAuthMiddleware } = require('./../jwt');
 const Election = require("../models/election");
 
+const mongoose = require('mongoose');
+
 // A simple admin-check middleware
 const adminCheck = (req, res, next) => {
     // Assumes the user role is part of the JWT payload
@@ -297,56 +299,62 @@ router.get('/:electionId', async (req, res) => {
     }
 });
 
+// in backend/routes/electionRoutes.js
 
-
-// GET /elections/:electionId/map-results
-// Aggregates vote counts by state for a specific election.
 router.get('/:electionId/map-results', async (req, res) => {
     try {
         const electionId = new mongoose.Types.ObjectId(req.params.electionId);
 
         const resultsByState = await Election.aggregate([
-            // Match the specific election
             { $match: { _id: electionId } },
-            // Deconstruct the parties array
             { $unwind: '$parties' },
-            // Deconstruct the votes array
-            { $unwind: '$parties.votes' },
-            // Populate the candidate details
+            { $unwind: { path: '$parties.votes', preserveNullAndEmptyArrays: true } },
             { $lookup: { from: 'candidates', localField: 'parties.candidate', foreignField: '_id', as: 'candidateInfo' } },
-            // Group votes by state and party
-            { $group: {
-                _id: { state: '$parties.votes.voterState', party: '$candidateInfo.party' },
-                votes: { $sum: 1 }
-            }},
-            // Group again by state to create a list of party results
-            { $group: {
-                _id: '$_id.state',
-                results: { $push: { party: '$_id.party', votes: '$votes' } },
-                totalVotes: { $sum: '$votes' }
-            }},
-            // Determine the winning party for each state
-            { $addFields: {
-                winningParty: {
-                    $reduce: {
-                        input: '$results',
-                        initial: { votes: 0 },
-                        in: { $cond: [{ $gt: ['$$this.votes', '$$value.votes'] }, '$$this', '$$value'] }
+            { $unwind: { path: '$candidateInfo', preserveNullAndEmptyArrays: true } },
+            {
+                $group: {
+                    // ✅ FIX: Use $ifNull to prevent crashing on missing data
+                    _id: {
+                        state: { $ifNull: ['$parties.votes.voterState', 'Unknown'] },
+                        party: { $ifNull: ['$candidateInfo.party', 'Unknown'] }
+                    },
+                    votes: { $sum: { $cond: [{ $ifNull: ['$parties.votes.user', false] }, 1, 0] } }
+                }
+            },
+            // Filter out any results where the state or party was unknown
+            { $match: { '_id.state': { $ne: 'Unknown' }, '_id.party': { $ne: 'Unknown' } } },
+            {
+                $group: {
+                    _id: '$_id.state',
+                    results: { $push: { party: '$_id.party', votes: '$votes' } },
+                    totalVotes: { $sum: '$votes' }
+                }
+            },
+            {
+                $addFields: {
+                    winningParty: {
+                        $reduce: {
+                            input: '$results',
+                            initialValue: { votes: -1, party: 'N/A' },
+                            in: { $cond: [{ $gt: ['$$this.votes', '$$value.votes'] }, '$$this', '$$value'] }
+                        }
                     }
                 }
-            }},
-            // Final projection
-            { $project: {
-                _id: 0,
-                state: '$_id',
-                totalVotes: 1,
-                results: 1,
-                winningParty: '$winningParty.party'
-            }}
+            },
+            {
+                $project: {
+                    _id: 0,
+                    state: '$_id',
+                    totalVotes: 1,
+                    results: 1,
+                    winningParty: '$winningParty.party'
+                }
+            }
         ]);
 
         res.json(resultsByState);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        console.error("Error in /map-results aggregation:", err); 
+        res.status(500).json({ error: 'Failed to aggregate map results.', details: err.message });
     }
 });
