@@ -28,11 +28,13 @@ const MapResults = () => {
 
     useEffect(() => {
         // Fetch map data whenever the selected election changes
+        console.log("Selected Election Changed:", selectedElection);
         if (selectedElection) {
             const fetchMapData = async () => {
                 setLoading(true);
                 try {
                     const { data } = await getElectionMapResults(selectedElection);
+                    console.log("Backend Map Data Received:", data);
                     setMapData(data);
                 } catch (error) {
                     toast.error('Failed to load map data.');
