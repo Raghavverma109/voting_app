@@ -16,10 +16,6 @@
 
 </div>
 
-<img width="1115" height="909" alt="image" src="https://github.com/user-attachments/assets/62f7ab48-a7a3-40b2-9feb-b4d629d9f794" />
-
-
-
 ---
 
 ## 📖 Overview
