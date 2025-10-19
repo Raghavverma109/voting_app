@@ -1,8 +1,9 @@
 // src/pages/Login.jsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate, Link } from 'react-router-dom'
 import { Lock, User, Vote, ArrowRight } from 'lucide-react'
+import axios from 'axios' // ✅ Import axios
 
 export default function Login() {
   const [aadhar, setAadhar] = useState('')
@@ -10,6 +11,13 @@ export default function Login() {
   const [focusedField, setFocusedField] = useState(null)
   const { login } = useAuth()
   const nav = useNavigate()
+
+  // ✅ Backend connection check
+  useEffect(() => {
+    axios.get("http://localhost:5000/")
+      .then(res => console.log("✅ Backend connected:", res.data))
+      .catch(err => console.error("❌ Backend not reachable:", err))
+  }, [])
 
   const submit = async (e) => {
     e.preventDefault()
