@@ -12,7 +12,7 @@ const db = require('./db'); // MongoDB connection file
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
-const port = process.env.PORT || 3030;
+const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

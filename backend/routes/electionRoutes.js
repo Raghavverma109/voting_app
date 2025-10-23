@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { jwtAuthMiddleware } = require('./../jwt');
+const { jwtAuthMiddleware } = require('../JWT');
 const Election = require("../models/election");
 
 const mongoose = require('mongoose');
