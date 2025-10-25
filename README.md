@@ -53,26 +53,87 @@ Key features include a dedicated admin panel for managing elections and candidat
 
 ## 📸 Screenshots
 
-*(Remember to add actual screenshots to a `./screenshots` folder and update paths)*
-
-| Feature         | Screenshot                               | Description                                      |
-| --------------- | ---------------------------------------- | ------------------------------------------------ |
-| **Home Page** | `![Home](./screenshots/home.png)`        | Landing page with application overview.          |
-| **Signup** | `![Signup](./screenshots/signup.png)`      | User registration with detailed fields & photo.  |
-| **Login** | `![Login](./screenshots/login.png)`       | Secure login using Aadhaar number & password.    |
-| **Dashboard** | `![Dashboard](./screenshots/dashboard.png)` | User dashboard listing elections.                |
-| **Voting Panel**| `![Voting](./screenshots/voting.png)`      | Interface for casting a vote in a live election. |
-| **Live Results**| `![Live Results](./screenshots/live_results.png)` | Real-time charts showing current vote counts.    |
-| **Map Results** | `![Map Results](./screenshots/map_results.png)` | Geographical visualization of results by state.  |
-| **Admin Panel** | `![Admin Home](./screenshots/admin_home.png)` | Admin navigation hub.                          |
-| **Manage Parties**| `![Manage Parties](./screenshots/admin_parties.png)` | Admin interface for managing candidates/parties. |
-| **Manage Elections**|`![Manage Elections](./screenshots/admin_elections.png)`| Admin interface for managing elections.        |
-| **Audit History**| `![Audit History](./screenshots/admin_history.png)`| List of past elections for auditing.           |
-| **Audit Detail**| `![Audit Detail](./screenshots/admin_audit_detail.png)`| Detailed view of voter participation list.   |
-| **Profile Page**| `![Profile](./screenshots/profile.png)`    | User's profile view and password change.       |
+Here's a glimpse of the VoteSafe application:
 
 ---
 
+### Home Page
+_Modern landing page with application overview and call-to-action buttons._
+![VoteSafe Home Page](./screenshots/home.png) 
+
+---
+
+### Signup Page
+_User registration form with detailed fields, Aadhaar QR scan option (optional), and live photo capture._
+![VoteSafe Signup Page](./screenshots/signup.png)
+
+---
+
+### Login Page
+_Secure login interface using Aadhaar number and password._
+![VoteSafe Login Page](./screenshots/login.png)
+
+---
+
+### User Dashboard
+_Displays upcoming, live, and past elections. Allows users to select a live election to vote._
+![VoteSafe User Dashboard](./screenshots/dashboard.png)
+
+---
+
+### Voting Panel
+_Interface for selecting a candidate and casting a vote within a live election._
+![VoteSafe Voting Panel](./screenshots/voting.png)
+
+---
+
+### Live Results Page
+_Shows real-time vote counts for the currently active election using animated charts (updates every 3 seconds)._
+![VoteSafe Live Results Page](./screenshots/live_results.png)
+
+---
+
+### Map Results Page
+_Interactive geographical map visualizing election results by state using colored overlays. Clickable popups show detailed vote breakdown._
+![VoteSafe Map Results Page](./screenshots/map_results.png)
+
+---
+
+### Admin Panel Hub
+_Central navigation dashboard for administrators._
+![VoteSafe Admin Panel Hub](./screenshots/admin_home.png)
+
+---
+
+### Admin - Manage Parties/Candidates
+_Interface for admins to add, edit, view, and delete candidates/parties, including image uploads._
+![VoteSafe Admin - Manage Parties](./screenshots/admin_parties.png)
+
+---
+
+### Admin - Manage Elections
+_Interface for admins to create, edit, view, and delete elections._
+![VoteSafe Admin - Manage Elections](./screenshots/admin_elections.png)
+
+---
+
+### Admin - Audit History
+_List view for admins to select past elections for auditing voter participation._
+![VoteSafe Admin - Audit History](./screenshots/admin_history.png)
+
+---
+
+### Admin - Audit Detail
+_Detailed view showing the list of verified users who participated in a specific past election (maintains vote secrecy). Includes search functionality._
+![VoteSafe Admin - Audit Detail](./screenshots/admin_audit_detail.png)
+
+---
+
+### User Profile Page
+_Displays the logged-in user's details and provides an interface to change their password._
+![VoteSafe User Profile Page](./screenshots/profile.png)
+
+---
 ## 🛠️ Technology Stack
 
 | Category         | Technologies                                                                 |
