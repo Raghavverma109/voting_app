@@ -96,13 +96,16 @@ _Shows all-past vote counts for the election using animated charts
 
 ### Live Results Page
 _Shows real-time vote counts for the currently active election using animated charts (updates every 3 seconds)._
-<img width="1559" height="730" alt="image" src="https://github.com/user-attachments/assets/23a8e2f3-f4e5-41c3-90ea-cfe0808ca59d" />
+<img width="1201" height="516" alt="image" src="https://github.com/user-attachments/assets/c17cf786-82b2-4685-9a2a-29c7f0bf9d33" />
+
 
 ---
 
 ### Map Results Page
 _Interactive geographical map visualizing election results by state using colored overlays. Clickable popups show detailed vote breakdown._
-![VoteSafe Map Results Page](./screenshots/map_results.png)
+<img width="1441" height="843" alt="image" src="https://github.com/user-attachments/assets/15d0804f-11d8-417e-acb7-82626deefcc6" />
+<img width="1353" height="770" alt="image" src="https://github.com/user-attachments/assets/01a0a0df-0a5b-4ba8-bf80-550e71c8bf06" />
+
 
 ---
 
@@ -132,8 +135,7 @@ _List view for admins to select past elections for auditing voter participation.
 
 ### Admin - Audit Detail
 _Detailed view showing the list of verified users who participated in a specific past election (maintains vote secrecy). Includes search functionality._
-<img width="1629" height="613" alt="image" src="https://github.com/user-attachments/assets/1a99ad62-ccd9-4cdb-b546-9951b70882a7" />
-
+<img width="1070" height="744" alt="image" src="https://github.com/user-attachments/assets/1d78a891-51c0-402f-b376-498408e6636a" />
 
 ---
 
