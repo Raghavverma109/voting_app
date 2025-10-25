@@ -14,7 +14,7 @@
 
 **A secure, full-stack online voting platform built with the MERN stack, featuring role-based access, live election results with real-time polling, geographical data visualization, and a comprehensive admin panel.**
 
-[**Live Demo**](https://votesafe.vercel.app) _(Replace with your Vercel link)_ | [**Backend Repo**](https://github.com/your-username/votesafe-backend) _(If separate)_ | [**Portfolio**](https://your-portfolio-link.com)
+[**Live Demo**](https://votesafe.vercel.app) || [**Portfolio**](https://raghavverma.vercel.app/)
 
 </div>
 
@@ -103,7 +103,7 @@ Key features include a dedicated admin panel for managing elections and candidat
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/Raghavverma109/voting_app.git](https://github.com/Raghavverma109/voting_app.git)
+git clone https://github.com/Raghavverma109/voting_app.git
 cd voting_app
 ```
 
@@ -234,8 +234,8 @@ voting_app/
 
 ## 🚀 Deployment
 
-- **Frontend:** Deployed on [**Vercel**](https://vercel.com/) -> [https://votesafe.vercel.app](https://votesafe.vercel.app) _(Replace)_
-- **Backend:** Deployed on [**Render**](https://render.com/) -> [https://vote-backend-ksfd.onrender.com](https://vote-backend-ksfd.onrender.com) _(Replace)_
+- **Frontend:** Deployed on [**Vercel**](https://vercel.com/) -> [https://votesafe.vercel.app](https://votesafe.vercel.app) 
+- **Backend:** Deployed on [**Render**](https://render.com/) -> [https://vote-backend-ksfd.onrender.com](https://vote-backend-ksfd.onrender.com) 
 
 *(Ensure environment variables are set correctly in both Vercel and Render)*
 
@@ -257,18 +257,12 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ---
 
-## 📝 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
 ## 👨‍💻 Author
 
 **Raghav Verma**
 
 - GitHub: [@Raghavverma109](https://github.com/Raghavverma109)
-- LinkedIn: [linkedin.com/in/your-profile-slug](https://linkedin.com/in/your-profile-slug) _(Replace)_
+- LinkedIn: [linkedin.com/in/your-profile-slug](https://www.linkedin.com/in/raghav-verma-71870627a/)
 - Email: raghav.verma.3262@gmail.com
 
 ---
