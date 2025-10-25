@@ -198,37 +198,50 @@ The application will be available at `http://localhost:5173`.
 
 ---
 
-## 📁 Project Structure (Simplified)
+## 📁 Project Structure
 
-```
+```text
 voting_app/
 ├── backend/
-│   ├── models/           # Mongoose schemas (User, Election, Candidate)
-│   ├── routes/           # API route handlers (userRoutes, electionRoutes, candidateRoutes)
 │   ├── middleware/       # JWT auth (jwtAuthMiddleware, adminCheck)
+│   ├── models/           # Mongoose schemas (User, Election, Candidate)
+│   ├── node_modules/     # (Omitted - Dependencies)
+│   ├── routes/           # API route handlers (userRoutes, electionRoutes, candidateRoutes)
+│   ├── uploads/          # (Potentially for temporary file uploads if using multer diskStorage)
 │   ├── .env              # Server environment variables
-│   ├── server.js         # Express app entry point
-│   └── package.json
+│   ├── .gitignore        # Git ignore rules
+│   ├── cloudinary.js     # Cloudinary configuration utility
+│   ├── db.js             # MongoDB connection setup
+│   ├── JWT.js            # JWT generation & verification utilities
+│   ├── package-lock.json # (Omitted - Lockfile)
+│   ├── package.json      # Backend dependencies and scripts
+│   └── server.js         # Express app entry point
 │
 ├── frontend/
-│   ├── public/           # Static assets (like indian-states.json)
-│   ├── src/
-│   │   ├── api/            # Axios config & API service functions
-│   │   ├── assets/         # Images, GeoJSON (if not in public)
-│   │   ├── components/     # Reusable UI components (Navbar, ElectionCard, Map, Charts, Modals...)
-│   │   ├── contexts/       # React Context (AuthContext)
-│   │   ├── hooks/          # Custom React hooks (useWindowSize)
-│   │   ├── pages/          # Page-level components (Home, Login, Signup, Dashboard, Admin*, MapResults...)
-│   │   ├── routes/         # React Router setup (AppRoutes)
-│   │   ├── utils/          # Helper functions (auth, mapConfig, validation...)
-│   │   ├── App.jsx         # Main App layout
-│   │   └── main.jsx        # React entry point
-│   ├── .env              # Client-side environment variables
-│   ├── vite.config.js    # Vite build configuration
-│   └── package.json
-│
-└── screenshots/          # Application screenshots (.png files)
-```
+    ├── node_modules/     # (Omitted - Dependencies)
+    ├── public/           # Static assets (like indian-states.json, logo.png)
+    ├── src/
+    │   ├── api/            # Axios config & API service functions
+    │   ├── assets/         # Project-specific assets (images, GeoJSON if not in public)
+    │   ├── components/     # Reusable UI components (Navbar, ElectionCard, Map, Charts, Modals...)
+    │   ├── contexts/       # React Context (AuthContext)
+    │   ├── hooks/          # Custom React hooks (useWindowSize)
+    │   ├── pages/          # Page-level components (Home, Login, Signup, Dashboard, Admin*, MapResults...)
+    │   ├── routes/         # React Router setup (AppRoutes)
+    │   ├── styles/         # Additional CSS/styling files (if any)
+    │   ├── utils/          # Helper functions (auth, mapConfig, validation...)
+    │   ├── App.css         # Main App component styles
+    │   ├── App.jsx         # Main App layout component
+    │   ├── index.css       # Global styles
+    │   └── main.jsx        # React application entry point
+    ├── .env              # Client-side environment variables
+    ├── .gitignore        # Git ignore rules
+    ├── eslint.config.js  # ESLint configuration
+    ├── index.html        # HTML entry point for Vite
+    ├── package-lock.json # (Omitted - Lockfile)
+    ├── package.json      # Frontend dependencies and scripts
+    ├── README.md         # (Omitted - Project README)
+    └── vite.config.js    # Vite build configuration
 
 ---
 
