@@ -24,7 +24,7 @@ const electionRoutes = require("./routes/electionRoutes");
 
 // Allowed origins (for CORS)
 const allowedOrigins = (
-  process.env.FrontEND_ALLOWED_ORIGINS + "," + process.env.Backend_ALLOWED_ORIGINS
+  process.env.VITE_Frontend_URL + "," + process.env.VITE_Backend_URL
 )
   .split(",")
   .map(origin => origin.trim().replace(/\/$/, ""));
@@ -49,6 +49,7 @@ app.use(cors({
 app.get("/", (req, res) => {
   res.send("✅ Backend is working fine!");
 });
+
 
 // Use other routes
 app.use('/user', userRoutes);

@@ -14,7 +14,7 @@ export default function Login() {
 
   // ✅ Backend connection check
   useEffect(() => {
-    axios.get("http://localhost:5000/")
+    axios.get("https://ttdbf4tb-5000.inc1.devtunnels.ms/")
       .then(res => console.log("✅ Backend connected:", res.data))
       .catch(err => console.error("❌ Backend not reachable:", err))
   }, [])
