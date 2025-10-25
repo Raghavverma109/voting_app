@@ -242,7 +242,7 @@ voting_app/
     ├── package.json      # Frontend dependencies and scripts
     ├── README.md         # (Omitted - Project README)
     └── vite.config.js    # Vite build configuration
-
+```
 ---
 
 ## 🚀 Deployment
