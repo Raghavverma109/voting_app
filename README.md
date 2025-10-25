@@ -89,7 +89,8 @@ _Interface for selecting a candidate and casting a vote within a live election._
 ### Past Results Page
 _Shows all-past vote counts for the election using animated charts
 <img width="1112" height="762" alt="image" src="https://github.com/user-attachments/assets/8f5127c1-bd56-41d8-a9db-67a1089621fd" />
-<img width="1056" height="742" alt="image" src="https://github.com/user-attachments/assets/22d64212-3783-4e76-8583-9d95e3cfacbe" />
+<img width="983" height="808" alt="image" src="https://github.com/user-attachments/assets/022878dc-2919-4220-832e-ecb927da0317" />
+
 
 ---
 
