@@ -274,8 +274,8 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 **Raghav Verma**
 
-- GitHub: [@Raghavverma109](https://github.com/Raghavverma109)
-- LinkedIn: [linkedin.com/in/raghav-verma-71870627a](https://www.linkedin.com/in/raghav-verma-71870627a/)
+- GitHub: [**@Raghavverma109**](https://github.com/Raghavverma109)
+- LinkedIn: [**linkedin.com/in/raghav-verma-71870627a**](https://www.linkedin.com/in/raghav-verma-71870627a/)
 - Email: raghav.verma.3262@gmail.com
 
 ---
