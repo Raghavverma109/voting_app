@@ -53,7 +53,7 @@ export default function Navbar() {
                   <User size={18} />
                   <span className="font-medium">Profile</span>
                 </Link>
-                
+
                 {/* ✅ FIX: Use the boolean variable directly, without parentheses */}
                 {isAdmin && (
                   <Link to="/admin" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white font-medium hover:bg-slate-750 transition-all duration-200">
@@ -77,7 +77,7 @@ export default function Navbar() {
                 </Link>
               </>
 
-              
+
             )}
 
             {
@@ -94,24 +94,41 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-slate-800 pt-4 space-y-2">
-            <Link to="/results" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
-              <BarChart size={20} />
-              <span className="font-medium">Results</span>
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 border-t border-slate-800 pt-4 space-y-2">
+
+              <Link to="/results" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
+                <BarChart size={20} />
+                <span className="font-medium">Results</span>
+              </Link>
+
+              {user ? (
+                <>
+            <Link to="/live-results" onClick={closeMobileMenu} className="flex items-center gap-2 px-4 py-2 rounded-lg text-red-500 hover:text-white hover:bg-slate-800 transition-all duration-200">
+              <BarChart size={18} color="red" />
+              <span className="font-medium">Live Results</span>
             </Link>
-            {user ? (
-              <>
-                <Link to="/dashboard" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
-                  <Home size={20} />
-                  <span className="font-medium">Dashboard</span>
-                </Link>
-                <Link to="/profile" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
-                  <User size={20} />
-                  <span className="font-medium">Profile</span>
-                </Link>
-                
-                {/* ✅ FIX: Use the boolean variable directly, without parentheses */}
+
+            <Link to="/dashboard" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
+              <Home size={20} />
+              <span className="font-medium">Dashboard</span>
+            </Link>
+
+            <Link to="/profile" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
+              <User size={20} />
+              <span className="font-medium">Profile</span>
+            </Link>
+
+            <Link to="/map-results" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200">
+              {/* Inline map icon to match "Map Results" */}
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="1 6 1 20 8 18 16 20 23 18 23 4 16 6 8 4 1 6" />
+                <line x1="8" y1="4" x2="8" y2="18" />
+              </svg>
+              <span className="font-medium">Map Results</span>
+            </Link>
+
+            {/* ✅ FIX: Use the boolean variable directly, without parentheses */}
                 {isAdmin && (
                   <Link to="/admin" onClick={closeMobileMenu} className="flex items-center gap-3 px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white font-medium transition-all duration-200">
                     <ShieldCheck size={20} />

@@ -1,46 +1,53 @@
 // src/components/ElectionMapView.jsx
 
-import React, { useState, useEffect } from 'react'; // Import useState and useEffect
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-// ❌ DELETE this static import: import indiaStates from '../assets/indian-states.json';
 import { partyColors } from '../utils/mapConfig';
 
-const ElectionMapView = ({ mapData }) => {
-    const mapCenter = [22.5937, 78.9629];
-    const mapZoom = 4.5;
+// Helper hook to get window dimensions (optional but useful for complex adjustments)
+function useWindowSize() {
+  const [size, setSize] = useState([window.innerHeight, window.innerWidth]);
+  useEffect(() => {
+    const handleResize = () => setSize([window.innerHeight, window.innerWidth]);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return size;
+}
 
-    // ✅ NEW: State to hold the GeoJSON data once loaded
+const ElectionMapView = ({ mapData }) => {
+    // --- Mobile Responsiveness Adjustments ---
+    const [height, width] = useWindowSize();
+    const isMobile = width < 768; // Tailwind's 'md' breakpoint
+
+    // Adjust map height and zoom based on screen size
+    const mapHeight = isMobile ? '50vh' : '70vh'; // Smaller height on mobile
+    const mapZoom = isMobile ? 4.0 : 4.5;       // Slightly zoomed out on mobile
+    const mapCenter = [22.5937, 78.9629]; // Center remains the same
+    // --- End of Adjustments ---
+
     const [geoJsonData, setGeoJsonData] = useState(null);
-    // ✅ NEW: State to track loading of the GeoJSON file
     const [geoJsonLoading, setGeoJsonLoading] = useState(true);
 
-    // ✅ NEW: useEffect hook to fetch the GeoJSON file
     useEffect(() => {
         const fetchGeoJson = async () => {
             try {
-                // Fetch the file from the /public directory
                 const response = await fetch('/indian-states.json'); 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await response.json();
-                setGeoJsonData(data); // Store the loaded data in state
+                setGeoJsonData(data);
             } catch (error) {
                 console.error("Failed to load GeoJSON file:", error);
-                // Optionally: show an error message to the user
             } finally {
-                setGeoJsonLoading(false); // Stop loading regardless of success/failure
+                setGeoJsonLoading(false);
             }
         };
-
         fetchGeoJson();
-    }, []); // Empty dependency array means this runs once when the component mounts
+    }, []);
 
     const onEachState = (state, layer) => {
-        // Use the correct property name ('st_nm')
         const stateName = state.properties.st_nm;
-
         const result = mapData.find(d =>
             d.state && stateName && d.state.trim().toLowerCase() === stateName.trim().toLowerCase()
         );
@@ -51,7 +58,7 @@ const ElectionMapView = ({ mapData }) => {
         layer.options.color = '#e2e8f0';
         layer.options.weight = 1;
 
-        let popupContent = `<b>${stateName}</b><br/>`;
+        let popupContent = `<b style="color: white;">${stateName}</b><br/>`;
         if (result) {
             popupContent += `<b>Winning Party: ${result.winningParty}</b><br/><hr>`;
             result.results.forEach(r => {
@@ -64,32 +71,37 @@ const ElectionMapView = ({ mapData }) => {
         layer.bindPopup(popupContent);
     };
 
-    // ✅ NEW: Show a loading message while the GeoJSON file is being fetched
     if (geoJsonLoading) {
         return (
-            <div style={{ height: '70vh', width: '100%' }} className="rounded-lg flex items-center justify-center bg-slate-800">
+            <div style={{ height: mapHeight, width: '100%' }} className="rounded-lg flex items-center justify-center bg-slate-800">
                 <p className="text-slate-400">Loading map boundaries...</p>
             </div>
         );
     }
 
-    // ✅ NEW: Handle the case where GeoJSON failed to load
     if (!geoJsonData) {
         return (
-             <div style={{ height: '70vh', width: '100%' }} className="rounded-lg flex items-center justify-center bg-slate-800">
+             <div style={{ height: mapHeight, width: '100%' }} className="rounded-lg flex items-center justify-center bg-slate-800">
                 <p className="text-red-400">Error: Could not load map boundaries.</p>
             </div>
         );
     }
 
-    // Only render the map once the GeoJSON data is available
     return (
-        <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '70vh', width: '100%' }} className="rounded-lg">
+        // Use the dynamic mapHeight and mapZoom variables
+        <MapContainer 
+            center={mapCenter} 
+            zoom={mapZoom} 
+            style={{ height: mapHeight, width: '100%' }} 
+            className="rounded-lg"
+            // Ensure touch interactions are enabled (usually default)
+            touchZoom={true} 
+            scrollWheelZoom={true} // Allow scroll wheel zoom on desktop
+        >
             <TileLayer
                 url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             />
-            {/* ✅ Use the geoJsonData state here */}
             <GeoJSON
                 data={geoJsonData.features}
                 onEachFeature={onEachState}
