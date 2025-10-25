@@ -53,26 +53,95 @@ Key features include a dedicated admin panel for managing elections and candidat
 
 ## 📸 Screenshots
 
-*(Remember to add actual screenshots to a `./screenshots` folder and update paths)*
-
-| Feature         | Screenshot                               | Description                                      |
-| --------------- | ---------------------------------------- | ------------------------------------------------ |
-| **Home Page** | `![Home](./screenshots/home.png)`        | Landing page with application overview.          |
-| **Signup** | `![Signup](./screenshots/signup.png)`      | User registration with detailed fields & photo.  |
-| **Login** | `![Login](./screenshots/login.png)`       | Secure login using Aadhaar number & password.    |
-| **Dashboard** | `![Dashboard](./screenshots/dashboard.png)` | User dashboard listing elections.                |
-| **Voting Panel**| `![Voting](./screenshots/voting.png)`      | Interface for casting a vote in a live election. |
-| **Live Results**| `![Live Results](./screenshots/live_results.png)` | Real-time charts showing current vote counts.    |
-| **Map Results** | `![Map Results](./screenshots/map_results.png)` | Geographical visualization of results by state.  |
-| **Admin Panel** | `![Admin Home](./screenshots/admin_home.png)` | Admin navigation hub.                          |
-| **Manage Parties**| `![Manage Parties](./screenshots/admin_parties.png)` | Admin interface for managing candidates/parties. |
-| **Manage Elections**|`![Manage Elections](./screenshots/admin_elections.png)`| Admin interface for managing elections.        |
-| **Audit History**| `![Audit History](./screenshots/admin_history.png)`| List of past elections for auditing.           |
-| **Audit Detail**| `![Audit Detail](./screenshots/admin_audit_detail.png)`| Detailed view of voter participation list.   |
-| **Profile Page**| `![Profile](./screenshots/profile.png)`    | User's profile view and password change.       |
+Here's a glimpse of the VoteSafe application:
 
 ---
 
+### Home Page
+_Modern landing page with application overview and call-to-action buttons._
+ <img width="1915" height="873" alt="image" src="https://github.com/user-attachments/assets/0f275495-79ef-44f7-944a-9f90a415e89f" />
+ 
+---
+
+### Signup Page
+_User registration form with detailed fields, Aadhaar QR scan option (optional), and live photo capture._
+<img width="1482" height="865" alt="image" src="https://github.com/user-attachments/assets/c369af5f-cb08-4212-bce7-c8456e1473a9" />
+
+---
+
+### Login Page
+_Secure login interface using Aadhaar number and password._
+<img width="1555" height="855" alt="image" src="https://github.com/user-attachments/assets/836e39f8-a7c5-4d5f-aa5c-3a1e0fbe4190" />
+
+---
+
+### User Dashboard
+_Displays upcoming, live, and past elections. Allows users to select a live election to vote._
+<img width="1919" height="869" alt="image" src="https://github.com/user-attachments/assets/aaf69424-4f87-4f0b-93d2-6f172ba20034" />
+
+---
+
+### Voting Panel
+_Interface for selecting a candidate and casting a vote within a live election._
+<img width="1203" height="785" alt="image" src="https://github.com/user-attachments/assets/97e2cf5b-e259-4887-b497-0e3f0dc1cfd2" />
+
+---
+### Past Results Page
+_Shows all-past vote counts for the election using animated charts
+<img width="1112" height="762" alt="image" src="https://github.com/user-attachments/assets/8f5127c1-bd56-41d8-a9db-67a1089621fd" />
+<img width="983" height="808" alt="image" src="https://github.com/user-attachments/assets/022878dc-2919-4220-832e-ecb927da0317" />
+
+
+---
+
+### Live Results Page
+_Shows real-time vote counts for the currently active election using animated charts (updates every 3 seconds)._
+<img width="1559" height="730" alt="image" src="https://github.com/user-attachments/assets/23a8e2f3-f4e5-41c3-90ea-cfe0808ca59d" />
+
+---
+
+### Map Results Page
+_Interactive geographical map visualizing election results by state using colored overlays. Clickable popups show detailed vote breakdown._
+![VoteSafe Map Results Page](./screenshots/map_results.png)
+
+---
+
+### Admin Panel Hub
+_Central navigation dashboard for administrators._
+<img width="1710" height="712" alt="image" src="https://github.com/user-attachments/assets/a9cefc34-36ac-49a1-ab86-dc403a3223b2" />
+
+---
+
+### Admin - Manage Parties/Candidates
+_Interface for admins to add, edit, view, and delete candidates/parties, including image uploads._
+<img width="1039" height="737" alt="image" src="https://github.com/user-attachments/assets/59e0530c-aef4-4547-9556-4fdd8e2bb583" />
+
+---
+
+### Admin - Manage Elections
+_Interface for admins to create, edit, view, and delete elections._
+<img width="1189" height="658" alt="image" src="https://github.com/user-attachments/assets/b2310ef1-d4e4-4b84-a7f0-61253a1988bf" />
+
+---
+
+### Admin - Audit History
+_List view for admins to select past elections for auditing voter participation._
+<img width="1208" height="750" alt="image" src="https://github.com/user-attachments/assets/639c089a-2596-48ce-a8f9-6bd6b6e8ff8f" />
+
+---
+
+### Admin - Audit Detail
+_Detailed view showing the list of verified users who participated in a specific past election (maintains vote secrecy). Includes search functionality._
+<img width="1629" height="613" alt="image" src="https://github.com/user-attachments/assets/1a99ad62-ccd9-4cdb-b546-9951b70882a7" />
+
+
+---
+
+### User Profile Page
+_Displays the logged-in user's details and provides an interface to change their password._
+<img width="1673" height="860" alt="image" src="https://github.com/user-attachments/assets/48e86557-d463-4fe5-b9c4-23ca19758af8" />
+
+---
 ## 🛠️ Technology Stack
 
 | Category         | Technologies                                                                 |
@@ -242,7 +311,7 @@ voting_app/
     ├── package.json      # Frontend dependencies and scripts
     ├── README.md         # (Omitted - Project README)
     └── vite.config.js    # Vite build configuration
-
+```
 ---
 
 ## 🚀 Deployment
