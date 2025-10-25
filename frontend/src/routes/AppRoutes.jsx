@@ -1,69 +1,72 @@
 // src/routes/AppRoutes.jsx
-import React from 'react';
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom'; // Import Outlet
-import Home from '../pages/Home';
-import Login from '../pages/Login';
-import Signup from '../pages/Signup';
-import Dashboard from '../pages/Dashboard';
-import AdminDashboard from '../pages/AdminDashboard';
-import Results from '../pages/Results';
-import Profile from '../pages/Profile';
+import React, { lazy, Suspense } from 'react'; // Import lazy and Suspense
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import ManageElections from '../pages/ManageElections';
-import ManageParties from '../pages/ManageParties'; // Import the new parties page
-import LiveResults from '../pages/LiveResults';
-import ElectionHistory from '../pages/ElectionHistory';
-import AuditDetail from '../pages/AuditDetail';
-import MapResults from '../pages/MapResults';
 
-// This component now acts as a "gatekeeper" for protected sections.
+// --- Dynamically import page components ---
+// This tells Vite/React to create separate JS files for each page
+const Home = lazy(() => import('../pages/Home'));
+const Login = lazy(() => import('../pages/Login'));
+const Signup = lazy(() => import('../pages/Signup'));
+const Dashboard = lazy(() => import('../pages/Dashboard'));
+const AdminDashboard = lazy(() => import('../pages/AdminDashboard'));
+const ManageParties = lazy(() => import('../pages/ManageParties'));
+const ManageElections = lazy(() => import('../pages/ManageElections'));
+const ElectionHistory = lazy(() => import('../pages/ElectionHistory'));
+const AuditDetail = lazy(() => import('../pages/AuditDetail'));
+const Results = lazy(() => import('../pages/Results'));
+const LiveResults = lazy(() => import('../pages/LiveResults'));
+const MapResults = lazy(() => import('../pages/MapResults'));
+const Profile = lazy(() => import('../pages/Profile'));
+
+// Your existing ProtectedRoute component (no changes needed here)
 const ProtectedRoute = ({ adminOnly = false }) => {
   const { user, loading } = useAuth();
-  if (loading) return <div className="p-8">Loading...</div>;
-
-  // If not logged in, redirect to login
+  if (loading) return <div className="p-8 text-center text-slate-400">Authenticating...</div>;
   if (!user) return <Navigate to="/login" replace />;
-
-  // If it's an admin-only route and the user is not an admin, redirect
   if (adminOnly && user.role !== 'admin') return <Navigate to="/dashboard" replace />;
-  
-  // If checks pass, render the child route (e.g., AdminDashboard, ManageParties)
   return <Outlet />;
 };
 
+// Simple component to show while pages are loading
+const LoadingFallback = () => (
+  <div className="flex justify-center items-center h-screen bg-slate-900">
+    <p className="text-white text-lg">Loading Page...</p>
+    {/* You could add a spinner component here */}
+  </div>
+);
+
 export default function AppRoutes() {
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+    // Wrap all routes in <Suspense> to handle the loading state
+    <Suspense fallback={<LoadingFallback />}>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-      {/* Standard Protected Routes */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/results" element={<Results />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/live-results" element={<LiveResults />} />
-        <Route path="/map-results" element={<MapResults />} />
-      </Route>
+        {/* Standard Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/live-results" element={<LiveResults />} />
+          <Route path="/map-results" element={<MapResults />} />
+        </Route>
 
-      {/* --- Nested Admin-Only Routes --- */}
-      <Route path="/admin" element={<ProtectedRoute adminOnly={true} />}>
-        {/* The index route is what shows at the base "/admin" path */}
-        <Route index element={<AdminDashboard />} />
-        
-        {/* Child routes are nested and inherit the path and protection */}
-        <Route path="parties" element={<ManageParties />} />
-        <Route path="elections" element={<ManageElections />} />
+        {/* Nested Admin-Only Routes */}
+        <Route path="/admin" element={<ProtectedRoute adminOnly={true} />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="parties" element={<ManageParties />} />
+          <Route path="elections" element={<ManageElections />} />
+          <Route path="history" element={<ElectionHistory />} />
+          <Route path="history/:electionId" element={<AuditDetail />} />
+        </Route>
 
-
-        <Route path="history" element={<ElectionHistory />} />
-        <Route path="history/:electionId" element={<AuditDetail />} />
-      </Route>
-
-      {/* fallback route */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        {/* Fallback route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
   );
 }
