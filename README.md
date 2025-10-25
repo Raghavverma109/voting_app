@@ -268,15 +268,13 @@ voting_app/
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Raghavverma109/voting_app/issues).
 
----
-
 ## 👨‍💻 Author
 
 **Raghav Verma**
 
-- GitHub: [**@Raghavverma109**](https://github.com/Raghavverma109)
-- LinkedIn: [**linkedin.com/in/raghav-verma-71870627a**](https://www.linkedin.com/in/raghav-verma-71870627a/)
-- Email: raghav.verma.3262@gmail.com
+- GitHub: [@Raghavverma109](https://github.com/Raghavverma109)
+- LinkedIn: [Raghav Verma](https://www.linkedin.com/in/raghav-verma-71870627a/)
+- Email: [raghav.verma.3262@gmail.com](mailto:raghav.verma.3262@gmail.com)
 
 ---
 
