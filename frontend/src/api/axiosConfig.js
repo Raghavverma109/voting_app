@@ -36,4 +36,9 @@ api.interceptors.response.use(
   }
 )
 
+// Function to update the user's profile
+export const updateUserProfile = (profileData) => {
+  return api.put('/user/profile', profileData); // Send updated data in the body
+};
+
 export default api
