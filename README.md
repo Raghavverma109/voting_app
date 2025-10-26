@@ -129,7 +129,7 @@ _Interface for admins to create, edit, view, and delete elections._
 
 ### Admin - Audit History
 _List view for admins to select past elections for auditing voter participation._
-<img width="1208" height="750" alt="image" src="https://github.com/user-attachments/assets/639c089a-2596-48ce-a8f9-6bd6b6e8ff8f" />
+<img width="1319" height="753" alt="image" src="https://github.com/user-attachments/assets/40c73960-4d40-4bc4-a453-8615fee8efe2" />
 
 ---
 
@@ -141,7 +141,7 @@ _Detailed view showing the list of verified users who participated in a specific
 
 ### User Profile Page
 _Displays the logged-in user's details and provides an interface to change their password._
-<img width="1673" height="860" alt="image" src="https://github.com/user-attachments/assets/48e86557-d463-4fe5-b9c4-23ca19758af8" />
+<img width="855" height="658" alt="image" src="https://github.com/user-attachments/assets/eb0839aa-6f40-4028-aa4c-d9dab6a9f766" />
 
 ---
 ## 🛠️ Technology Stack
