@@ -65,58 +65,6 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// // LOGIN method to authenticate a person
-
-// router.post('/login', async (req, res) => {
-//   const { addharCardNumber, password } = req.body; // Extract username and password from request body
-//   try {
-//     const user = await User.findOne({ addharCardNumber: addharCardNumber }); // Find person by username
-//     if (!user || !(await user.comparePassword(password))) {
-//       return res.status(404).json({ error: 'Invalid username or password' }); // If person not found, return 404
-//     }
-//     //generate JWT token
-//     const payload = {
-//       id: user.id,
-//     };
-//     const token = generateToken(payload); // Generate JWT token
-//     res.status(200).json({ token });// Send the token as a JSON response})  
-//   } catch (err) {
-//     console.error('Error during login:', err);
-//     res.status(500).json({ error: 'Failed to login' }); // If an error occurs, return 500
-//   }
-// });
-
-
-
-// router.post('/login', async (req, res) => {
-//     const { addharCardNumber, password } = req.body;
-//     try {
-//         // --- ADD THIS LOG ---
-//         console.log('--- Login Attempt ---');
-//         console.log('Aadhar received from Postman:', addharCardNumber);
-
-//         const user = await User.findOne({ addharCardNumber: addharCardNumber });
-
-//         // --- ADD THIS LOG ---
-//         console.log('User found in database:', user); // This will be null if not found
-
-//         if (!user || !(await user.comparePassword(password))) {
-//             return res.status(401).json({ error: 'Invalid Aadhar number or password' }); // Changed to 401
-//         }
-        
-//         //generate JWT token
-//         const payload = {
-//             id: user.id,
-//             role: user.role // Make sure to add the role for admin checks!
-//         };
-//         const token = generateToken(payload);
-//         res.status(200).json({ token });
-//     } catch (err) {
-//         console.error('Error during login:', err);
-//         res.status(500).json({ error: 'Failed to login' });
-//     }
-// });
-
 router.post('/login', async (req, res) => {
     const { addharCardNumber, password } = req.body;
     try {
@@ -190,5 +138,61 @@ router.put('/profile/password', jwtAuthMiddleware, async (req, res) => {
     res.status(500).json({ error: 'Failed to update password' });
   }
 });
+
+// PUT /user/profile - Update User Profile
+router.put('/profile', jwtAuthMiddleware, async (req, res) => {
+
+  console.log('--- PUT /user/profile Route Hit ---');
+    console.log('Received Body:', JSON.stringify(req.body, null, 2));
+    try {
+        const userId = req.user.id; // Get user ID from token
+        console.log(`Attempting to update profile for user ID: ${userId}`); // ✅ LOG 2
+
+        // Prepare the update object, including nested fields
+        const updates = {
+            name: req.body.name,
+            phone: req.body.phone,
+            email: req.body.email,
+            sex: req.body.sex,
+            dob: req.body.dob, // Make sure frontend sends date correctly
+            'address.city': req.body.address?.city, // Use dot notation for nested fields
+            'address.state': req.body.address?.state,
+            'address.pincode': req.body.address?.pincode,
+            'relative.relationType': req.body.relative?.relationType,
+            'relative.relativeName': req.body.relative?.relativeName,
+            // Add other fields you want to allow updating (e.g., profilePhoto)
+            // Note: Do NOT allow updating 'aadharCardNumber', 'role', 'isVerified', 'password' here.
+        };
+
+        // Remove any undefined fields to avoid overwriting with null
+        Object.keys(updates).forEach(key => updates[key] === undefined && delete updates[key]);
+        if (updates['address.city'] === undefined) delete updates['address.city'];
+        if (updates['address.state'] === undefined) delete updates['address.state'];
+        // etc. for all nested fields
+
+        console.log('Calling findByIdAndUpdate...'); // ✅ LOG 4
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $set: updates }, // Use $set to update only provided fields
+            { new: true, runValidators: true } // Return updated doc, run schema validators
+        );
+
+        if (!updatedUser) {
+          console.log(`User not found for ID: ${userId}`); // ✅ LOG 6
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(updatedUser); // Send back the updated user object
+
+    } catch (err) {
+        console.error('Error updating user profile:', err);
+        console.error('--- ERROR IN PUT /user/profile ---:', err);
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ error: err.message });
+        }
+        res.status(500).json({ error: 'Failed to update profile' });
+    }
+});
+
 
 module.exports = router;

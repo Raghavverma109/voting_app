@@ -30,8 +30,23 @@ const AuditDetail = () => {
         voter.addharCardNumber.includes(searchTerm)
     );
 
-    const formatAddress = (address) => { /* ... (remains the same) ... */ };
-    const formatRelative = (relative) => { /* ... (remains the same) ... */ };
+    const formatAddress = (address) => {
+        // Check if the address object exists and has the required fields
+        if (!address || !address.city || !address.state || !address.pincode) {
+            return 'N/A'; // Return 'Not Available' if data is incomplete
+        }
+        // Construct the formatted string
+        return `${address.city}, ${address.state} - ${address.pincode}`;
+    };
+    
+    const formatRelative = (relative) => {
+        // Check if the relative object exists and has the required fields
+        if (!relative || !relative.relationType || !relative.relativeName) {
+            return 'N/A'; // Return 'Not Available' if data is incomplete
+        }
+        // Construct the formatted string (e.g., "S/O Anil Verma")
+        return `${relative.relationType} ${relative.relativeName}`;
+    };
 
     if (loading) return <p className="text-center text-slate-400 p-8">Loading Audit Details...</p>;
     if (!auditData) return <p className="text-center text-red-400 p-8">Could not load data.</p>;
