@@ -141,7 +141,8 @@ _Detailed view showing the list of verified users who participated in a specific
 
 ### User Profile Page
 _Displays the logged-in user's details and provides an interface to change their password._
-<img width="855" height="658" alt="image" src="https://github.com/user-attachments/assets/eb0839aa-6f40-4028-aa4c-d9dab6a9f766" />
+<img width="535" height="374" alt="image" src="https://github.com/user-attachments/assets/b50ac3a9-7969-406b-a4d2-6d4db8d95721" />
+
 
 ---
 ## 🛠️ Technology Stack
